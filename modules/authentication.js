@@ -15,20 +15,31 @@ function generateHash(password) {
     return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
 };
 
-var upsert = async function(values, condition) {
-// async function upsert(values, condition) {
-    return User
+var upsert = async function(Model, values, condition) {
+    return Model
         .findOne({ where: condition })
         .then(function(obj) {
             // update
             if(obj)
                 return obj.update(values);
             // insert
-            return User.create(values);
+            return Model.create(values);
         })
 }
   
-                
+var findOrCreate = async function(Model, values, condition) {
+    return Model
+        .findOne({ where: condition })
+        .then(function(obj) {
+            // get the object
+            if(obj)
+                return obj;
+            // create the object
+            return Model.create(values);
+        })
+}
+  
+             
 module.exports = function (req, res) {
   
 
@@ -165,15 +176,20 @@ module.exports = function (req, res) {
                 console.log('profile ' + profile_name);
                 
                 // lets get or create the Id's of the department, profile, role and current Business coming from API.
-                const department = await models.Department.findOrCreate({where: {department_name: department_name}});
-                const role = await models.Role.findOrCreate({where: {role_name:  role_name}});
-                const profile = await models.Profile.findOrCreate({where: {profile_name: profile_name}});
-                const currentBusiness = await models.CurrentBusiness.findOrCreate({where: {current_business_name: current_business }});
+                // let department = await models.Department.findOrCreate({where: {department_name: department_name}});
+                // let role = await models.Role.findOrCreate({where: {role_name:  role_name}});
+                // let profile = await models.Profile.findOrCreate({where: {profile_name: profile_name}});
+                // let currentBusiness = await models.CurrentBusiness.findOrCreate({where: {current_business_name: current_business }});
                 
-                console.log('Department ID ' + department[0].Id)
-                console.log('Role ID ' + role[0].Id)
-                console.log('Profile ' + profile[0].Id)
-                console.log('Current Business ' + currentBusiness[0].Id)
+                let department = await findOrCreate({department_name: department_name }, { department_name: department_name});
+                let role = await findOrCreate({role_name:  role_name}, { role_name:  role_name});
+                let profile = await findOrCreate({profile_name: profile_name }, { profile_name: profile_name});
+                let currentBusiness = await findOrCreate({current_business_name: current_business }, { current_business_name: current_business});
+                
+                console.log('Department ID ' + department[0].Id);
+                console.log('Role ID ' + role[0].Id);
+                console.log('Profile ' + profile[0].Id);
+                console.log('Current Business ' + currentBusiness[0].Id);
                 
                 // not used but for testing purpose
                 // console.log('status ' + status);
