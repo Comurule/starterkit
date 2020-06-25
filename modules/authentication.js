@@ -198,13 +198,13 @@ module.exports = function (req, res) {
                 
                 console.log(user);
                 console.log('email '+ user.email);
-                console.log('current business ' + user.currentBusiness);
+                console.log('current business ' + user.CurrentBusinessId);
                 console.log('password ' + user.password);
                 
                 console.log('I am done creating or updating user');
 
                 // automatically logs user in and redirect to /user to confirm user has been logged in
-                auth.checkCredentials( user.email, user.currentBusiness, password, ( err, user ) => {
+                auth.checkCredentials( user.email, user.CurrentBusinessId, password, ( err, user ) => {
                     if( err ) {
                         res.redirect('https://manifestusermodule.herokuapp.com/login');
                         return next();

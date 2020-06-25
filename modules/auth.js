@@ -27,7 +27,7 @@ auth.initializeStrategy = function(passport) {
     });
 
     passport.deserializeUser(function(id, cb) {
-        dbLayer.user.findById(id).then(function(user) {
+        dbLayer.user.findByPk(id).then(function(user) {
             if (user) {
                 cb(null, user);
             } else {
@@ -41,11 +41,11 @@ auth.initializeStrategy = function(passport) {
 
 };
 
-auth.checkCredentials = ( email, currentBusiness, password, cb  ) => {
+auth.checkCredentials = ( email, CurrentBusinessId, password, cb  ) => {
     dbLayer.user.findOne({
         where: {
             email: email,
-            currentBusiness: currentBusiness
+            CurrentBusinessId: CurrentBusinessId
         }
     }).then(function(user) {
         if (!user) {
