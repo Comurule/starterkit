@@ -170,10 +170,10 @@ module.exports = function (req, res) {
                 const profile = await models.Profile.findOrCreate({where: {profile_name: profile_name}});
                 const currentBusiness = await models.CurrentBusiness.findOrCreate({where: {current_business_name: current_business }});
                 
-                console.log('Department ID ' + department.id)
-                console.log('Role ID ' + role.id)
-                console.log('Profile ' + profile.id)
-                console.log('Current Business ' + currentBusiness.id)
+                console.log('Department ID ' + department[0].Id)
+                console.log('Role ID ' + role[0].Id)
+                console.log('Profile ' + profile[0].Id)
+                console.log('Current Business ' + currentBusiness[0].Id)
                 
                 // not used but for testing purpose
                 // console.log('status ' + status);
@@ -188,12 +188,12 @@ module.exports = function (req, res) {
                      module_id: module_id,
                      account_id: account_id,
                      permission: permission,
-                     ProfileId: profile.id,
-                     DepartmentId: department.id,
-                     CurrentBusinessId: currentBusiness.id,
-                     RoleId: role.id
+                     ProfileId: profile[0].id,
+                     DepartmentId: department[0].id,
+                     CurrentBusinessId: currentBusiness[0].id,
+                     RoleId: role[0].id
                      // update where email and current business matches
-                }, { email: email,  CurrentBusinessId: currentBusiness.id });
+                }, { email: email,  CurrentBusinessId: currentBusiness[0].id });
                 
                 console.log(user);
                 console.log('I am done creating or updating user');
