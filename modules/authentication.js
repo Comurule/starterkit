@@ -185,7 +185,7 @@ module.exports = function (req, res) {
                      password: userPassword,
                      name: name,
                      module_name: module_name,
-                     email: email,
+                     email: 'babatope.olajide@gmail.com',
                      module_id: module_id,
                      account_id: account_id,
                      permission: permission,
@@ -194,7 +194,7 @@ module.exports = function (req, res) {
                      CurrentBusinessId: currentBusiness[0].id,
                      RoleId: role[0].id
                      // update where email and current business matches
-                }, { email: email});
+                }, { email: email,  CurrentBusinessId: currentBusiness[0].id });
                 
                 console.log(user);
                 console.log('email '+ user.email);
