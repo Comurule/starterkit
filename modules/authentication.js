@@ -194,7 +194,7 @@ module.exports = function (req, res) {
                      CurrentBusinessId: currentBusiness[0].id,
                      RoleId: role[0].id
                      // update where email and current business matches
-                }, { email: email,  CurrentBusinessId: currentBusiness[0].id });
+                }, { email: email});
                 
                 console.log(user);
                 console.log('email '+ user.email);
