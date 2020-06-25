@@ -181,10 +181,10 @@ module.exports = function (req, res) {
                 // let profile = await models.Profile.findOrCreate({where: {profile_name: profile_name}});
                 // let currentBusiness = await models.CurrentBusiness.findOrCreate({where: {current_business_name: current_business }});
                 
-                let department = await findOrCreate({department_name: department_name }, { department_name: department_name});
-                let role = await findOrCreate({role_name:  role_name}, { role_name:  role_name});
-                let profile = await findOrCreate({profile_name: profile_name }, { profile_name: profile_name});
-                let currentBusiness = await findOrCreate({current_business_name: current_business }, { current_business_name: current_business});
+                let department = await findOrCreate('Department',{department_name: department_name }, { department_name: department_name});
+                let role = await findOrCreate('Role',{role_name:  role_name}, { role_name:  role_name});
+                let profile = await findOrCreate('Profile',{profile_name: profile_name }, { profile_name: profile_name});
+                let currentBusiness = await findOrCreate('CurrentBusiness',{current_business_name: current_business }, { current_business_name: current_business});
                 
                 console.log('Department ID ' + department[0].Id);
                 console.log('Role ID ' + role[0].Id);
@@ -195,7 +195,7 @@ module.exports = function (req, res) {
                 // console.log('status ' + status);
                 
                  // create a new user with the password hash from bcrypt
-                let user = await upsert({ 
+                let user = await upsert('User', { 
                      username: username,
                      password: userPassword,
                      name: name,
