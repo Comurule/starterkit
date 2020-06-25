@@ -171,9 +171,9 @@ module.exports = function (req, res) {
                 let profile = await models.Profile.findOrCreate({where: {profile_name: profile_name}});
                 let currentBusiness = await models.CurrentBusiness.findOrCreate({where: {current_business_name: current_business }});
                 
-                console.log('Department ID ' + department);
+                console.log('Department ID ' + department[0].id);
                 console.log('Role ID ' + role[0].role_name);
-                console.log('Profile ' + profile[0].Id);
+                console.log('Profile ' + profile[0].id);
                 console.log('Current Business ' + currentBusiness[0].id);
                 
                 // not used but for testing purpose
