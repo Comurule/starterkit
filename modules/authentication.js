@@ -16,14 +16,14 @@ function generateHash(password) {
 };
 
 var upsert = async function(values, condition) {
-    return User
+    return models.User
         .findOne({ where: condition })
         .then(function(obj) {
             // update
             if(obj)
                 return obj.update(values);
             // insert
-            return User.create(values);
+            return models.User.create(values);
         })
 }
   
