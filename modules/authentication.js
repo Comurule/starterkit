@@ -180,12 +180,12 @@ module.exports = function (req, res) {
                 // console.log('status ' + status);
                 
                  // create a new user with the password hash from bcrypt
-                let user = await upsert('User', { 
+                let user = await upsert({ 
                      username: username,
                      password: userPassword,
                      name: name,
                      module_name: module_name,
-                     email: 'babatope.olajide@gmail.com',
+                     email: email,
                      module_id: module_id,
                      account_id: account_id,
                      permission: permission,
