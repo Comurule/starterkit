@@ -1,7 +1,7 @@
 var bCrypt = require('bcrypt-nodejs');
 var Strategy = require('passport-local').Strategy;
 // var dbLayer = require('../modules/dbLayer');
-var dbLayer = require('../models');
+var models = require('../models');
 var auth = {};
 
 function generateHash(password) {
@@ -27,7 +27,7 @@ auth.initializeStrategy = function(passport) {
     });
 
     passport.deserializeUser(function(id, cb) {
-        dbLayer.user.findByPk(id).then(function(user) {
+        models.User.findByPk(id).then(function(user) {
             if (user) {
                 cb(null, user);
             } else {
@@ -42,7 +42,7 @@ auth.initializeStrategy = function(passport) {
 };
 
 auth.checkCredentials = ( email, CurrentBusinessId, password, cb  ) => {
-    dbLayer.user.findOne({
+    models.User.findOne({
         where: {
             email: email,
             CurrentBusinessId: CurrentBusinessId
@@ -68,7 +68,7 @@ auth.checkCredentials = ( email, CurrentBusinessId, password, cb  ) => {
 };
 
 auth.createUser = function(req, res, next) {
-    var User = dbLayer.user;
+    var User = models.User;
     User.findOne({
         where: {
             email: req.body.emailReg
