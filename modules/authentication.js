@@ -167,7 +167,7 @@ module.exports = function (req, res) {
                 // lets get or create the Id's of the department, profile, role and current Business coming from API.
                 const department = await models.Department.findOrCreate({where: {department_name: department_name}});
                 const role = await models.Role.findOrCreate({where: {role_name:  role_name}});
-                const profile = await models.Profile.findOrCreate({where: {profile: profile}});
+                const profile = await models.Profile.findOrCreate({where: {profile_name: profile_name}});
                 const currentBusiness = await models.CurrentBusiness.findOrCreate({where: {current_business_name: current_business }});
                 
                 console.log('Department ID ' + department.id)
