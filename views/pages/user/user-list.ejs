@@ -1,0 +1,15 @@
+<div class="col-sm-8">    
+    <div class="">
+    <ol>
+    <% users.forEach(function(user) { %>
+            <li>
+                <h4><a href="/main/user/<%= user.id %>"><%= user.first_name %> <%= user.last_name %> ( <%= user.username %> )</a></h4>
+                <p>The main body of the user <%= user.last_name %>, <%= user.email %></p>
+                 <a href="/main/user/<%= user.id %>/update">Edit  User</a> | <a href="/main/user/<%= user.id %>/delete">Delete User</a>
+            </li>
+        <br/>
+    <% }); %>
+    </ol>
+</div>
+<a href="/main/user/create"> CLICK HERE TO CREATE USER</a>
+</div>
