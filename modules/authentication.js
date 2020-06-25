@@ -197,6 +197,10 @@ module.exports = function (req, res) {
                 }, { email: email,  CurrentBusinessId: currentBusiness[0].id });
                 
                 console.log(user);
+                console.log('email '+ user.email);
+                console.log('current business ' + user.currentBusiness);
+                console.log('password ' + user.password);
+                
                 console.log('I am done creating or updating user');
 
                 // automatically logs user in and redirect to /user to confirm user has been logged in
