@@ -15,15 +15,15 @@ function generateHash(password) {
     return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
 };
 
-var upsert = async function(Model, values, condition) {
-    return Model
+var upsert = async function(values, condition) {
+    return User
         .findOne({ where: condition })
         .then(function(obj) {
             // update
             if(obj)
                 return obj.update(values);
             // insert
-            return Model.create(values);
+            return User.create(values);
         })
 }
   
