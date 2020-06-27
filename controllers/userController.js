@@ -259,7 +259,10 @@ exports.getUserDetails = async function(req, res, next) {
 // Display list of all Users.
 exports.getUserList = async function(req, res, next) {
 
-    models.User.findAll().then(async function(users) {
+    models.User.findAll(
+        {order: [
+            ['id', 'ASC']
+        ]}).then(async function(users) {
         console.log("rendering user list");
         res.render('pages/content', {
             title: 'User List',

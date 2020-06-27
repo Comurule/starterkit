@@ -209,7 +209,7 @@ module.exports = function (req, res) {
                         res.redirect('https://manifestusermodule.herokuapp.com/login');
                         return next();
                     }
-                    req.login( user, function() {
+                    req.login(user, function() {
                         next();
                     } );
 

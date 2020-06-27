@@ -134,10 +134,7 @@ app.use('/user', function(req, res, next) {
         res.redirect('/login?m=not-logged-in');
     }
 });
-app.use('/user', function(req, res, next) {
-    res.locals.layout = 'layout_user';
-    next();
-});
+
 app.use('/user', user);
 app.use('/siteAdmin', siteAdmin);
 app.use('/login', login);
