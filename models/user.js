@@ -37,11 +37,12 @@ module.exports = (sequelize, DataTypes) => {
         },
         
         // you can also write in a single line without issues
+        permission : {type: DataTypes.STRING},
         name:{type: DataTypes.STRING, unique: false},
         module_name: {type: DataTypes.STRING},
         module_id : {type: DataTypes.INTEGER},
-        account_id : {type: DataTypes.STRING},
-        permission : {type: DataTypes.STRING}
+        account_id : {type: DataTypes.STRING}
+        
   });
 
  
@@ -65,17 +66,6 @@ module.exports = (sequelize, DataTypes) => {
     allowNull: true
     });
     
-    // models.User.belongsToMany(models.CurrentBusiness,{ 
-    //   as: 'currentbusinesses', 
-    //   through: 'UserCurrentBusinesses',
-    //   foreignKey: 'email'  
-    // });
-    
-    // models.User.belongsToMany(models.Permission,{ 
-    //   as: 'permissions', 
-    //   through: 'UserPermissions',
-    //   foreignKey: 'user_id'
-    // });
         
   };
   

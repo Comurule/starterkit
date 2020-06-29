@@ -12,9 +12,9 @@ config.db = {
     //     use_env_variable: process.env.DB_URL,
     //     host: process.env.DB_HOSTNAME
     // }
-    database: 'usermoduleapplication',
-    username: 'trackerUser',
-    password: 'PassWordChanged2020',
+    database: 'manifeststarterkitdb',
+    username: 'manifestUser',
+    password: 'manifestPassword',
     host: "manifestdbinstance.cgq0reqixqsd.us-east-1.rds.amazonaws.com",
     sequelizeParams: {
         dialect: 'postgres',
