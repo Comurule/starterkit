@@ -98,6 +98,16 @@ app.use( authenticationMiddleware );
 
 var authentication = require('./modules/authentication');
 
+var userModuleAPITesting = require('./api/userModuleAPITesting');
+
+// autologin for test
+app.get('/autoLogin',
+   userModuleAPITesting(),
+    function(req, res) {
+        res.redirect('/user');
+    });
+    
+    
 // authentication
 app.post('/login',
     passport.authenticate('local', {

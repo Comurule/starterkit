@@ -9,7 +9,7 @@ var models = require('../models');
 var User = models.user;
 const { Op } = require("sequelize");
 var passport = require('passport');
-const auth = require('./auth');
+const auth = require('../modules/auth');
 
 function generateHash(password) {
     return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
