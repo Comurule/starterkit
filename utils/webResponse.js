@@ -14,19 +14,18 @@ const axios = require("axios");
  */
 exports.renderPage = async (req, res, title, functioName, rest ) => {
     const currentBusiness = await CurrentBusiness.findOrCreate({where: {id: req.user.CurrentBusinessId }});
-    // if(req.flash('success'))console.log('success', req.flash('success'));
-    // if(req.flash('error'))console.log('error', req.flash('error'));
-    res.render('pages/content', {
+     res.render('pages/content', {
         title,
         functioName,
         layout: 'layouts/main',
         user: req.user,
-        current_business_name: currentBusiness.name,
-        // sucess: req.flash('success') ? req.flash('success') : '',
-        // error: req.flash('error') ? req.flash('error') : '',
+        // error: req.flash('error'),
+        // success: req.flash('success'),
+        current_business_name: currentBusiness[0].current_business_name,
         ...rest
-    });
+    })
 };
+
 
 /** 
  * Axios call to the Api Controllers 
@@ -41,6 +40,9 @@ exports.axiosFetch = async ( req, method, url, data ) => {
         method,
         url: `https://comurule-leadcampaign.herokuapp.com/api/v1${url}`,
         data,
+        headers: { 
+            cookie: req.headers.cookie 
+        }
     });
     return responseData.data;
 };

@@ -1,7 +1,11 @@
 
 const fetchData = async () =>{
   try {
-    const leads = await fetch('https://comurule-leadcampaign.herokuapp.com/api/v1/leads');
+    const leads = await fetch('https://comurule-leadcampaign.herokuapp.com/api/v1/leads', {
+      headers: { 
+        cookie: req.headers.cookie 
+      }
+    });
     return await leads.json();
   } catch (error) {
   console.log(error);

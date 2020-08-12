@@ -5,7 +5,8 @@ const fetchData = async (url, data) => {
   const request = await fetch(`https://comurule-leadcampaign.herokuapp.com/api/v1${url}`, {
     method: 'POST',
     headers: {
-      "Content-type": "application/json"
+      "Content-type": "application/json",
+      cookie: req.headers.cookie 
     },
     body: JSON.stringify(data)
   });

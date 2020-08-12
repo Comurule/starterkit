@@ -62,7 +62,8 @@ const submitHandler= async function (event) {
       const request = await fetch(`https://comurule-leadcampaign.herokuapp.com/api/v1/leads/create`, {
         method: 'POST',
         headers: {
-          "Content-type": "application/json"
+          "Content-type": "application/json",
+          cookie: req.headers.cookie
         },
         body: JSON.stringify({
           firstName: form.firstName.value, 
