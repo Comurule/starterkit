@@ -1,0 +1,190 @@
+<div class="row">
+    <div class="col-md-6">
+		<!--begin::Portlet-->
+		<div class="kt-portlet kt-portlet--height-fluid">
+			<div class="kt-portlet__head">
+				<div class="kt-portlet__head-label">
+					<h3 class="kt-portlet__head-title">Account BioData</h3>
+				</div>
+			</div>
+			<div class="kt-portlet__body">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-6">
+							<p><b>Status: </b><%= account.accountStatus[0].toUpperCase()+account.accountStatus.slice(1)%></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-8 col-xl-6">
+							<p><b>Full Name: </b><%= account.firstName + ' ' + account.lastName %></p>
+						</div>
+						<div class="col-md-6 col-xl-4">
+							<p><b>Username: </b><%= account.username %></p>
+						</div>
+						<div class="col-lg-8 col-xl-6">
+							<p><b>Email: </b><%= account.email %></p>
+						</div>
+						<div class="col-md-12">
+							<p><b>Address: </b><%= account.address %></p>
+						</div>
+						<div class="col-md-4 col-xl-3">
+							<p><b>City/State: </b><%= account.city %></p>
+						</div>
+						<div class="col-md-4 col-xl-3">
+							<p><b>Country: </b><%= account.counttry %></p>
+						</div>
+						<div class="col-md-4 col-xl-3">
+							<p><b>Currency: </b><%= account.billingCurrency %></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<!--begin::Portlet-->
+		<div class="kt-portlet kt-portlet--height-fluid">
+			<div class="kt-portlet__head">
+				<div class="kt-portlet__head-label">
+					<h3 class="kt-portlet__head-title">Account Campaigns</h3>
+				</div>
+			</div>
+			<div class="kt-portlet__body">
+				<div class="container">
+					<div class="row">
+						<div class="col-12">
+							<!--begin: Datatable -->
+							<table class="" id="html_table1" width="100%">
+								<thead>
+									<tr>
+										<th title="Field #4">Campaign</th>
+										<th title="Field #5">Data</th>
+										<th title="Field #6">Land</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>0006-3629</td>
+										<td>Land Rover</td>
+										<td>Range Rover</td>
+									</tr>
+									<tr>
+										<td>66403-315</td>
+										<td>GMC</td>
+										<td>Jimmy</td>
+									</tr>
+								</tbody>
+							</table>
+
+							<!--end: Datatable -->
+						</div>
+					</div>
+					</div>
+			</div>	
+		</div>
+		<!--end::Portlet-->
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-6">
+		<!--begin::Portlet-->
+		<div class="kt-portlet kt-portlet--height-fluid">
+			<div class="kt-portlet__head">
+				<div class="kt-portlet__head-label">
+					<h3 class="kt-portlet__head-title">account Company Details</h3>
+				</div>
+			</div>
+			<div class="kt-portlet__body">
+				<div class="container">
+					<div class="row">
+						<div class="col-12">
+							<p><b>Company Name: </b><%= account.billingName %></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<p><b>Address: </b><%= account.billingAddress %></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<p><b>City/State: </b><%= account.billingCity %></p>
+						</div>
+						<div class="col-md-6 ml-auto">
+							<p><b>Country: </b><%= account.billingCountry %></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<p><b>Company Email: </b><%= account.billingEmail %></p>
+						</div>
+					</div>
+					<div class="row">	
+						<div class="col-md-12">
+							<p><b>Company Website: </b><%= account.billingWebsite %></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+	<div class="col-md-6">
+		<!--begin::Portlet-->
+		<div class="kt-portlet kt-portlet--height-fluid">
+			<div class="kt-portlet__head">
+				<div class="kt-portlet__head-label">
+					<h3 class="kt-portlet__head-title">Account Preferences</h3>
+				</div>
+			</div>
+			<div class="kt-portlet__body">
+				<div class="container">
+					<div class="row">
+						<div class="col-12">
+						
+						</div>
+					</div>
+					</div>
+			</div>	
+		</div>
+		<!--end::Portlet-->
+	</div>
+	<div class="col-12">
+		<!--begin::Portlet-->
+		<div class="kt-portlet kt-portlet--height-fluid">
+			<div class="kt-portlet__body">
+					<div class="row">	
+						<div class="col-md-6 col-xl-3">
+							<p><b>Created By: </b>Umechukwu Chibuike</p>
+						</div>
+						<div class="col-md-6 col-xl-3">
+							<p><b>Last Modified By: </b>Umechukwu Chibuike</p>
+						</div>
+					</div>
+			</div>	
+		</div>
+		<!--end::Portlet-->
+	</div>
+</div> 			
+<script>
+	$(document).ready(function(){
+	    $("#switch4").click(function(){
+	    	alert( "Handler for .change() called." );
+	        $("#switchForm4").submit(); // Submit the form
+	    });
+	});
+	$(document).ready(function(){
+	    $("#switch1").change(function(){        
+	        $("#switchForm1").submit(); // Submit the form
+	    });
+	});
+	$(document).ready(function(){
+	    $("#switch2").change(function(){        
+	        $("#switchForm2").submit(); // Submit the form
+	    });
+	});
+	$(document).ready(function(){
+	    $("#switch3").change(function(){        
+	        $("#switchForm3").submit(); // Submit the form
+	    });
+	});
+</script>

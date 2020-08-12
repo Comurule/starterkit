@@ -1,28 +1,71 @@
-/**
- * Main Routes.
- * Author: Babatope Olajide.
- * Version: 1.0.0
- * Release Date: 08-April-2020
- * Last Updated: 09-April-2020
- */
 
-/**
- * Module dependencies.
- */
 var express = require('express');
 var router = express.Router();
-var aboutController = require('../controllers/aboutController');
-var currentBusinessController = require('../controllers/currentBusinessController');
-var departmentController = require('../controllers/departmentController');
-var postController = require('../controllers/postController');
-var profileController = require('../controllers/profileController');
-var roleController = require('../controllers/roleController');
-var userController = require('../controllers/userController');
-var categoryController = require('../controllers/categoryController');
-var permissionController = require('../controllers/permissionController');
-var indexController = require('../controllers/indexController');
+var aboutController = require('../controllers/webControllers/aboutController');
+var currentBusinessController = require('../controllers/webControllers/currentBusinessController');
+var departmentController = require('../controllers/webControllers/departmentController');
+var postController = require('../controllers/webControllers/postController');
+var profileController = require('../controllers/webControllers/profileController');
+var roleController = require('../controllers/webControllers/roleController');
+var userController = require('../controllers/webControllers/userController');
+var categoryController = require('../controllers/webControllers/categoryController');
+var permissionController = require('../controllers/webControllers/permissionController');
+var indexController = require('../controllers/webControllers/indexController');
+
+const { 
+    deleteLead, getAllLeads, getLead, getCreateLead, getUpdateLead
+} = require('../controllers/webControllers/leadController');
+
+const { 
+    createAccount, updateAccount, deleteAccount, getAllAccounts, getAccount, getCreateAccount, getUpdateAccount
+} = require('../controllers/webControllers/accountController');
+
+const { 
+    deletePreference, getPreference, getAllPreference, getCreatePreference, getUpdatePreference
+} = require('../controllers/webControllers/preferenceController');
 
 console.log("I am in main routes");
+
+
+//Preference Routes
+router.get('/preferences/create', getCreatePreference);
+
+router.get('/preferences/:preferenceId/update', getUpdatePreference);
+
+router.get('/preferences/:preferenceId/delete', deletePreference);
+
+router.get('/preferences/:preferenceId', getPreference);
+
+router.get('/preferences', getAllPreference);
+
+
+// LEAD ROUTES
+
+router.get('/leads/create', getCreateLead); 
+
+router.get('/leads/:leadId/update', getUpdateLead); 
+
+router.get('/leads/:leadId/delete', deleteLead); 
+
+router.get('/leads/:leadId', getLead); 
+
+router.get('/leads', getAllLeads);
+
+
+// ACCOUNT ROUTES
+
+router.get('/accounts/create', getCreateAccount);
+router.post('/accounts/create', createAccount); 
+
+router.get('/accounts/:accountId/update', getUpdateAccount);
+router.post('/accounts/:accountId/update', updateAccount); 
+
+router.get('/accounts/:accountId/delete', deleteAccount); 
+
+router.get('/accounts/:accountId', getAccount); 
+
+router.get('/accounts', getAllAccounts);
+
 
 // USER ROUTES
 
@@ -41,7 +84,7 @@ router.post('/user/:user_id/update', userController.postUserUpdate);
 // GET USER DELETE
 router.get('/user/:user_id/delete', userController.getUserDelete); 
 
-// GET USER LIST
+// // GET USER LIST
 router.get('/users', userController.getUserList); 
 
 // GET USER DETAILS

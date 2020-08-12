@@ -1,0 +1,101 @@
+<div class="col-sm-8">    
+  <div class="jumbotron">
+      
+      <form action="" method="post">
+        <p>
+          Account First Name:<br>
+          <input type="text" name="firstName" value="<%= account.firstName%>" placeholder="Babatope" required>
+        </p>
+        <p>
+          Account Last Name:<br>
+          <input type="text" name="lastName" value="<%= account.lastName%>" placeholder="Olajide" required>
+        </p>
+        <p>
+          Account Username:<br>
+          <input type="text" name="username" value="<%= account.username%>" placeholder="manifest007">
+        </p>
+        <p>
+          Account Password:<br>
+          <input type="password" name="password" value="" placeholder="password123">
+        </p>
+        <p>
+          Account Email Address:<br>
+          <input type="email" name="email" value="<%= account.email%>" placeholder="hello@manifest.com" required>
+        </p>
+        <p>
+          Account Address:<br>
+          <input type="text" name="address" value="<%= (account.address != '')? account.address : ''%>" placeholder="91 Anthony crescent, Alabi village">
+        </p>
+        <p>
+          Account City:<br>
+          <input type="text" name="city" value="<%= (account.city != '')? account.city : ''%>" placeholder="Lagos">
+        </p>
+        <p>
+          Account Country:<br>
+          <input type="text" name="country" value="<%= (account.country != '')? account.country : ''%>" placeholder="Nigeria">
+        </p>
+        <p>
+          Billing Currency:<br>
+          <input type="text" name="billingCurrency" value="<%= (account.billingCurrency != '')? account.billingCurrency : ''%>" placeholder="NGN">
+        </p>
+        <p>
+          Billing Language:<br>
+          <input type="text" name="billingLanguage" value="<%= (account.billingLanguage != '')? account.billingLanguage : ''%>" placeholder="English">
+        </p>
+        <p>
+          Billing Company Name:<br>
+          <input type="text" name="billingName" value="<%= (account.billingName != '')? account.billingName : ''%>" placeholder="Micro Solutions">
+        </p>
+        <p>
+          Billing Company Email:<br>
+          <input type="email" name="billingEmail" value="<%= (account.billingEmail != '')? account.billingEmail : ''%>" placeholder="hello@manifest.com">
+        </p>
+        <p>
+          Billing Company Website:<br>
+          <input type="text" name="billingWebsite" value="<%= (account.billingWebsite != '')? account.billingWebsite : ''%>" placeholder="www.manifest.com">
+        </p>
+        <p>
+          Billing Address:<br>
+          <input type="text" name="billingAddress" value="<%= (account.billingAddress != '')? account.billingAddress : ''%>" placeholder="91 Anthony crescent, Alabi village">
+        </p>
+        <p>
+          Billing City:<br>
+          <input type="text" name="billingCity" value="<%= (account.billingCity != '')? account.billingCity : ''%>" placeholder="Abuja">
+        </p>
+        <p>
+          Billing Country:<br>
+          <input type="text" name="billingCountry" value="<%= (account.billingCountry != '')? account.billingCountry : ''%>" placeholder="Nigeria">
+        </p>
+        <p>
+          <h5>Preferences:</h5> 
+          <div>
+              <% preferences.forEach(preference => { %>
+                <input type="checkbox" class='permissionCheckbox' name="preferences" id="<%= preference.id %>" value="<%= preference.id %>">
+                <label for="<%= preference.name %>"><%= preference.name %></label>
+                <br/>
+              <% }); %>
+          </div>
+        </p>
+        <p>
+          <input type="submit" value="UPDATE ACCOUNT" onClick="checkPermission()">
+        </p>
+      </form>
+  </div>
+</div>
+
+  
+<script>
+const checkPermission = () => {
+  var checkBoxes = document.getElementsByClassName( 'permissionCheckbox' );
+  var isChecked = false;
+  for (var i = 0; i < checkBoxes.length; i++) {
+    if ( checkBoxes[i].checked ) {
+        isChecked = true;
+    };
+  };
+  if (isChecked ) {
+  } else {
+          alert( 'Please, check at least one preference for this Lead!' );
+  };  
+};
+</script>
