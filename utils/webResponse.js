@@ -13,13 +13,15 @@ const axios = require("axios");
  * @returns {Object} - Page rendered
  */
 exports.renderPage = async (req, res, title, functioName, rest ) => {
-    // const currentBusiness = await CurrentBusiness.findOrCreate({where: {id: req.user.CurrentBusinessId }});
+    const currentBusiness = await CurrentBusiness.findOrCreate({where: {id: req.user.CurrentBusinessId }});
     // if(req.flash('success'))console.log('success', req.flash('success'));
     // if(req.flash('error'))console.log('error', req.flash('error'));
     res.render('pages/content', {
         title,
         functioName,
         layout: 'layouts/main',
+        user: req.user,
+        current_business_name: currentBusiness.name,
         // sucess: req.flash('success') ? req.flash('success') : '',
         // error: req.flash('error') ? req.flash('error') : '',
         ...rest
@@ -37,7 +39,7 @@ exports.renderPage = async (req, res, title, functioName, rest ) => {
 exports.axiosFetch = async ( req, method, url, data ) => {
     const responseData = await axios({
         method,
-        url: `http://localhost:8080/api/v1${url}`,
+        url: `https://comurule-leadcampaign.herokuapp.com/api/v1${url}`,
         data,
     });
     return responseData.data;

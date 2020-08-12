@@ -30,7 +30,7 @@
             <!--use "kt-rounded" class for rounded avatar style-->
             <div class="kt-header__topbar-user kt-rounded-">
                 <span class="kt-header__topbar-welcome kt-hidden-mobile">Hi,</span>
-                <span class="kt-header__topbar-username kt-hidden-mobile">user.username</span>
+                <span class="kt-header__topbar-username kt-hidden-mobile"><%= user.username %></span>
                 <img alt="Pic" src="assets/media/users/300_25.jpg" class="kt-rounded-" />
 
                 <!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->
@@ -46,8 +46,8 @@
                         <img alt="Pic" src="assets/media/users/300_21.jpg" class="kt-rounded-" />
                     </div>
                     <div class="kt-user-card__details">
-                        <div class="kt-user-card__name">user.nameS</div>
-                        <div class="kt-user-card__position">current_business_name</div>
+                        <div class="kt-user-card__name"><%= user.name %></div>
+                        <div class="kt-user-card__position"><%= current_business_name %></div>
                     </div>
                 </div>
             </div>
