@@ -27,8 +27,7 @@ const updatePreference = async (event, preferenceId) => {
       const data = await fetch(`https://comurule-leadcampaign.herokuapp.com/api/v1/preferences/${preferenceId}/update`, {
         method: 'POST',
         headers: {
-          "Content-type": "application/json", 
-              cookie: req.headers.cookie 
+          "Content-type": "application/json",
         },
         body: JSON.stringify({
           name: form.name.value,
