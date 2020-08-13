@@ -52,11 +52,10 @@ jQuery(document).ready(function() {
 });
 //Helpers
 const fetchData = async (url, data) => {
-  const request = await fetch(`https://comurule-leadcampaign.herokuapp.com/api/v1${url}`, {
+  const request = await fetch(`/api/v1${url}`, {
     method: 'POST',
     headers: {
       "Content-type": "application/json",
-      cookie: req.headers.cookie
     },
     body: JSON.stringify(data)
   });
@@ -70,7 +69,7 @@ const fetchResponse = async (data, url) =>{
       data.message,
       'success'
     );
-    location.href = `https://comurule-leadcampaign.herokuapp.com${url}`;
+    location.href = `${url}`;
   } else {
     // show notification
     swal.fire(

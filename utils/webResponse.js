@@ -19,8 +19,6 @@ exports.renderPage = async (req, res, title, functioName, rest ) => {
         functioName,
         layout: 'layouts/main',
         user: req.user,
-        // error: req.flash('error'),
-        // success: req.flash('success'),
         current_business_name: currentBusiness[0].current_business_name,
         ...rest
     })
@@ -40,9 +38,6 @@ exports.axiosFetch = async ( req, method, url, data ) => {
         method,
         url: `https://comurule-leadcampaign.herokuapp.com/api/v1${url}`,
         data,
-        headers: { 
-            cookie: req.headers.cookie 
-        }
     });
     return responseData.data;
 };

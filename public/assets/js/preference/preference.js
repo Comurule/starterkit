@@ -1,11 +1,7 @@
 //Fetch Helper
 const fetchData = async (url) =>{
     try {
-      const preferences = await fetch(`https://comurule-leadcampaign.herokuapp.com/api/v1${url}`, {  
-        headers: { 
-            cookie: req.headers.cookie 
-        }
-      });
+      const preferences = await fetch(`/api/v1${url}`);
       return await preferences.json();
     } catch (error) {
     console.log(error);
@@ -204,11 +200,10 @@ const createPreferenceHandler = async (event) => {
     const form = event.target;
     
     try {
-    const request = await fetch(`https://comurule-leadcampaign.herokuapp.com/api/v1/preferences/create`, {
+    const request = await fetch(`/api/v1/preferences/create`, {
         method: 'POST',
         headers: {
-            "Content-type": "application/json",
-            cookie: req.headers.cookie 
+            "Content-type": "application/json", 
         },
         body: JSON.stringify({
             name: form.name.value,
@@ -228,7 +223,7 @@ const createPreferenceHandler = async (event) => {
             data.message,
             'success'
         );
-        location.href = `https://comurule-leadcampaign.herokuapp.com/main/preferences`;
+        location.href = `/main/preferences`;
     } else {
         
         // show notification
