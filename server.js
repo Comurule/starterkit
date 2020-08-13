@@ -10,7 +10,7 @@ var ejsLayouts = require('express-ejs-layouts');
 
 var env = process.env.NODE_ENV || 'development',
     config = require('./config/config.' + env);
-
+var apiRoutes = require('./routes/apiRoutes');
 var index = require('./routes/index');
 var user = require('./routes/user');
 var main = require('./routes/main');
@@ -148,7 +148,7 @@ app.use('/user', function(req, res, next) {
 app.use('/user', user);
 app.use('/siteAdmin', siteAdmin);
 app.use('/login', login);
-
+app.use('/api/v1', apiRoutes);
 //
 // error handling
 //
