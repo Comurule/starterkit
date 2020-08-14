@@ -19,7 +19,8 @@ auth.initializeStrategy = function(passport) {
             passReqToCallback: true
         },
         function(req, email, password, cb) {
-            auth.checkCredentials( email, password, cb ); //change auth to this
+            console.log(email);console.log(password);
+            auth.checkLocalUser( email, password, cb ); //change auth to this
         }));
 
     passport.serializeUser(function(user, cb) {
@@ -39,6 +40,34 @@ auth.initializeStrategy = function(passport) {
         });
     });
 
+};
+// in app login function
+auth.checkLocalUser = async (req, email, password, cb) => {
+  try {
+    const user = await models.User.findOne({
+      where: {
+        email,
+      },
+    });
+    if (!user) {
+        console.log('Could not find the email')
+      return cb(null, false);
+    }
+    if (!isValidPassword(user.password, password)) {
+        console.log(user.password + ' ' + password + 'do not match')
+      return cb(null, false);
+    }
+    console.log('got the user')
+    const userData = await user.get();
+    await user.update({
+      last_login: Date.now(),
+    });
+    req.user = userData;
+    req.login(userData, () => cb(null, userData));
+  } catch (error) {
+    console.log(`error${error}`);
+    return cb(null, false);
+  }
 };
 
 auth.checkCredentials = ( email, CurrentBusinessId, password, cb  ) => {

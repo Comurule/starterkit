@@ -14,6 +14,7 @@ var env = process.env.NODE_ENV || 'development',
 var index = require('./routes/index');
 var user = require('./routes/user');
 var main = require('./routes/main');
+var apiRoutes = require('./routes/apiRoutes');
 var login = require('./routes/login');
 var siteAdmin = require('./routes/siteAdmin');
 var tools = require('./modules/tools');
@@ -94,7 +95,7 @@ const authenticationMiddleware = (req, res, next) => {
 
     res.redirect('https://manifestusermodule.herokuapp.com/login');
 };
-app.use( authenticationMiddleware );
+// app.use( authenticationMiddleware );
 
 var authentication = require('./modules/authentication');
 
@@ -135,15 +136,17 @@ app.get('/logout',
 //
 // routing
 //
+app.use('/api/v1', apiRoutes);
 app.use('/', index);
 app.use('/main', main);
-app.use('/user', function(req, res, next) {
-    if (req.isAuthenticated()) {
-        next();
-    } else {
-        res.redirect('/login?m=not-logged-in');
-    }
-});
+// app.use('/user', function(req, res, next) {
+//     console.log(req.isAuthenticated());
+//     if (req.isAuthenticated()) {
+//         next();
+//     } else {
+//         res.redirect('/login?m=not-logged-in');
+//     }
+// });
 
 app.use('/user', user);
 app.use('/siteAdmin', siteAdmin);

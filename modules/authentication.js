@@ -214,11 +214,14 @@ module.exports = function (req, res) {
                 // automatically logs user in and redirect to /user to confirm user has been logged in
                 auth.checkCredentials( user.email, user.CurrentBusinessId, password, ( err, user ) => {
                     if( err ) {
+                        console.log('You are bounced here')
                         res.redirect('https://manifestusermodule.herokuapp.com/login');
                         return next();
                     }
                     req.login(user, function() {
                         next();
+                        
+                        console.log('You are logged Into the system...')
                     } );
 
                 } )

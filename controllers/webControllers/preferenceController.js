@@ -9,6 +9,7 @@ const { renderPage, axiosFetch } = require("../../utils/webResponse");
 exports.getCreatePreference = async (req, res) => {
     const data = await axiosFetch(req, 'GET', '/preferences', '' )
     const preferences = await data.data;
+    console.log(preferences);
     //Success Response
     renderPage(req, res, 'Create Preference', 'GET PREFERENCE CREATE', {preferences})
     
