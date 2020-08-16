@@ -76,7 +76,7 @@ app.use(tools.onRequestEnd);
 // generate menu of the application
 app.use('/user', tools.generateUserMenu);
 
-const isWhiteListed = ( path, whiteList = [ 'login', 'autoLogin' ] ) => {
+const isWhiteListed = ( path, whiteList = [ 'login', 'autoLogin', 'api/v1' ] ) => {
     let whiteListed = false;
     for(let i=0; i < whiteList.length; i++) {
         // this won't check authentication for login and autoLogin
@@ -90,12 +90,13 @@ const isWhiteListed = ( path, whiteList = [ 'login', 'autoLogin' ] ) => {
 
 const authenticationMiddleware = (req, res, next) => {
     if( isWhiteListed(req.originalUrl) || req.isAuthenticated() ) {
+        console.log('You are logged In');
         return next();
     }
-
+        console.log('You are not logged In');
     res.redirect('https://manifestusermodule.herokuapp.com/login');
 };
-// app.use( authenticationMiddleware );
+app.use( authenticationMiddleware );
 
 var authentication = require('./modules/authentication');
 
@@ -110,11 +111,19 @@ app.get('/autoLogin',
     
     
 // authentication
+// app.post('/login',
+//     passport.authenticate('local', { 
+//         successRedirect: '/user',
+//         failureRedirect: '/login'
+//     })
+// );
 app.post('/login',
     passport.authenticate('local', {
-        failureRedirect: '/login'
+        failureRedirect: '/login',
+        failureFlash: false
     }),
     function(req, res) {
+        console.log('It passed local passport auth...')
         res.redirect('/user');
     });
     
@@ -130,17 +139,17 @@ app.post('/autoLogin',
 app.get('/logout',
     function(req, res) {
         req.logout();
-        res.redirect('/');
+        res.redirect('/login');
     });
 
 //
 // routing
 //
-app.use('/api/v1', apiRoutes);
 app.use('/', index);
 app.use('/main', main);
+app.use('/api/v1', apiRoutes);
 // app.use('/user', function(req, res, next) {
-//     console.log(req.isAuthenticated());
+//     console.log('is Authenticated?  '+req.isAuthenticated());
 //     if (req.isAuthenticated()) {
 //         next();
 //     } else {

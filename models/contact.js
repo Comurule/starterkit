@@ -71,12 +71,24 @@ module.exports = (sequelize, DataTypes) => {
     models.Contact.belongsTo(models.Lead, {
       foreignKey: {
           name: 'leadId',
-          allowNull: true
+          allowNull: false
       }
     });
     models.Contact.belongsToMany(models.PreferenceCenter, {
       through: 'ContactPreferences',
       foreignKey: 'leadId'
+    });
+    models.Contact.belongsTo(models.Department, {
+      foreignKey: {
+        name: 'departmentId',
+        allowNull: false
+    }
+    });
+    models.Contact.belongsTo(models.CurrentBusiness, {
+      foreignKey: {
+        name: 'currentBusinessId',
+        allowNull: false
+    }
     });
 
   };

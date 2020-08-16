@@ -12,13 +12,21 @@ exports.createPreference = async (req, res) => {
         
         //check if there is a duplicate in the database
         const checkPreference = await PreferenceCenter.findOne({ 
-            where: { name: inputData.name } 
+            where: { 
+                name: inputData.name,
+                departmentId: req.user['dataValues'].DepartmentId,
+                currentBusinessId: req.user['dataValues'].CurrentBusinessId 
+            } 
         });
         if( checkPreference ) {
             errorRes( res, 'This Preference Center already exists in the database.' );
         } else {
         
-            const preference = await PreferenceCenter.create(inputData);
+            const preference = await PreferenceCenter.create({
+                ...inputData,
+                departmentId: req.user['dataValues'].DepartmentId,
+                currentBusinessId: req.user['dataValues'].CurrentBusinessId
+            });
 
             const data = await preference;
 
@@ -42,7 +50,11 @@ exports.updatePreference = async (req, res) => {
         if(inputData.parentPC != '' && inputData.parentPC == req.params.preferenceId) 
             return errorRes(res, 'Parent PC can not be same as the Preference Center')
         //check if there is a duplicate in the database
-        const checkPreference = await PreferenceCenter.findOne({ where: { name: inputData.name } });
+        const checkPreference = await PreferenceCenter.findOne({ where: { 
+            name: inputData.name,
+            departmentId: req.user['dataValues'].DepartmentId,
+            currentBusinessId: req.user['dataValues'].CurrentBusinessId 
+        } });
         if(checkPreference && checkPreference.id != req.params.preferenceId) {
             errorRes( res, 'This Preference already exists in the database.' );
             
@@ -70,12 +82,14 @@ exports.updatePreference = async (req, res) => {
 
 exports.deletePreference = async (req, res) => {
     try {
+        console.log(1,'Delete Preference');
         //check if the id is valid
-        const checkPreference = await PreferenceCenter.findByPk( req.params.preferenceId )
+        const checkPreference = await PreferenceCenter.findByPk( req.params.preferenceId );
+        console.log('got the Preference');
         if(!checkPreference) return errorRes( res, 'Invalid Entry Details' );
-
+        console.log('about to delete the preference')
         await PreferenceCenter.destroy({ where: { id: req.params.preferenceId } })
-
+        console.log('preference deleted')
         //Success Response
         successRes( res, 'Preference Center deleted Successfully.' )
 
@@ -103,7 +117,12 @@ exports.getPreference = async (req, res) => {
 exports.getAllPreference = async (req, res) => {
     console.log('preference list controller');
     try {
-        const preferenceList = await PreferenceCenter.findAll();
+        const preferenceList = await PreferenceCenter.findAll({
+            where: {
+                departmentId: req.user.DepartmentId,
+                currentBusinessId: req.user.CurrentBusinessId
+            }
+        });
 
         const data = await preferenceList
         successResWithData( res,'Preference Center List', data )

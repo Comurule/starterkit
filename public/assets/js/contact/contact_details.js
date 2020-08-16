@@ -90,28 +90,3 @@ const updateEnrolled = async (event, leadPreferenceId, leadId) => {
     console.log(error);
   };
 };
-
-const convertLead = async (leadId) => {
-  const response = await fetch(`api/v1/leads/${leadId}`);
-  const {data} = await response.json();
-  let count = 0;
-  //check for empty or null fields
-  Object.entries(data).forEach(([key, value])=> {
-    if(value=='' || value== null){
-      count++
-    };
-    return count;
-  });
-  if (count > 0){
-    // show notification
-    await swal.fire(
-      'Failed!',
-      `There are ${count} empty fields In this record. 
-      Only "COMPLETELY FILLED" Lead records can be converted.`,
-      'error'
-    );
-    location.href = `/main/leads/${leadId}/update` 
-  } else {
-
-  };
-};

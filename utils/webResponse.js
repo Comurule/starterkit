@@ -13,6 +13,7 @@ const axios = require("axios");
  * @returns {Object} - Page rendered
  */
 exports.renderPage = async (req, res, title, functioName, rest ) => {
+    
     const currentBusiness = await CurrentBusiness.findOrCreate({where: {id: req.user.CurrentBusinessId }});
      res.render('pages/content', {
         title,
@@ -34,9 +35,11 @@ exports.renderPage = async (req, res, title, functioName, rest ) => {
  * @returns {Object} - response object from the API call
  */
 exports.axiosFetch = async ( req, method, url, data ) => {
+    const weblink = 'http://localhost:8080';
+    // const weblink = 'https://comurule-leadcampaign.herokuapp.com';
     const responseData = await axios({
         method,
-        url: `https://comurule-leadcampaign.herokuapp.com/api/v1${url}`,
+        url: `${weblink}/api/v1${url}`,
         data,
     });
     return responseData.data;

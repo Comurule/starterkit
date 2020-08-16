@@ -48,6 +48,18 @@ module.exports = (sequelize, DataTypes) => {
       through: 'ContactPreferences',
       foreignKey: 'preferenceId'
     });
+    models.PreferenceCenter.belongsTo(models.Department, {
+      foreignKey: {
+        name: 'departmentId',
+        allowNull: false
+    }
+    });
+    models.PreferenceCenter.belongsTo(models.CurrentBusiness, {
+      foreignKey: {
+        name: 'currentBusinessId',
+        allowNull: false
+    }
+    });
   };
 
   return PreferenceCenter;

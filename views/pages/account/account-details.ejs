@@ -21,7 +21,7 @@
 						<div class="col-md-6 col-xl-4">
 							<p><b>Username: </b><%= account.username %></p>
 						</div>
-						<div class="col-lg-8 col-xl-6">
+						<div class="col-md-6 col-xl-4">
 							<p><b>Email: </b><%= account.email %></p>
 						</div>
 						<div class="col-md-12">
@@ -91,7 +91,7 @@
 		<div class="kt-portlet kt-portlet--height-fluid">
 			<div class="kt-portlet__head">
 				<div class="kt-portlet__head-label">
-					<h3 class="kt-portlet__head-title">account Company Details</h3>
+					<h3 class="kt-portlet__head-title">Company Details</h3>
 				</div>
 			</div>
 			<div class="kt-portlet__body">
@@ -140,7 +140,61 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-12">
-						
+							<!--begin: Datatable -->
+							<table class="" id="html_table" width="100%">
+								<thead>
+									<tr>
+										<th title="Field #1" style="width: max-content;">Preference</th>
+										<th title="Field #2" style="width: 100px;">Enrolled</th>
+										<th title="Field #3" style="width: 100px;">Active</th>
+									</tr>
+								</thead>
+								<tbody>
+								    <% account.PreferenceCenters.forEach ( preference => { %>
+								        <tr>
+    										<td><%= preference.name %></td>
+    										<td>
+												<% 
+												let checked = ''; let enrolled = ''; let value = ''; 
+												checked = (preference.AccountPreference.enrolled)? 'checked' : '';
+												enrolled = (preference.AccountPreference.enrolled)? 'Enrolled' : 'Not Enrolled';
+												value = (preference.AccountPreference.enrolled)? 'true' : 'false';
+												%>
+												<div><%= enrolled %></div> 
+												<form id="switchForm4">
+													<span class="kt-switch kt-switch--sm">
+														<label>
+															<input type="hidden" name="accountPreferenceId" value="<%= preference.AccountPreference.id%>">
+															<input id="enrolled" type="checkbox" value="<%= value %>" onchange="updateEnrolled(event, <%= preference.AccountPreference.id%>, <%= account.id %>)" <%= checked %> >
+															<span></span>
+														</label>
+													</span>
+												</form>
+    										</td>
+    										<td>
+    										    <% 
+												let checkIsActive = ''; let isActive = ''; let val = '';
+												checkIsActive = (preference.AccountPreference.isActive)? 'checked' : '';
+												isActive = (preference.AccountPreference.isActive)? 'Active' : 'Inactive';
+												val = (preference.AccountPreference.isActive)? 'true' : 'false';
+												%>
+												<div><%= isActive %></div> 
+												<form id="switchForm2">
+													<span class="kt-switch kt-switch--sm">
+														<label>
+															<input type="hidden" name="accountPreferenceId" value="<%= preference.AccountPreference.id%>">
+															<input id="isActive" type="checkbox" value="<%= val %>" onchange="updateIsActive(event, <%= preference.AccountPreference.id%>, <%= account.id %>)"<%= checkIsActive %> >
+															<span></span>
+														</label>
+													</span>
+												</form>
+    										</td>
+    									</tr>
+								    <% }) %>
+								</tbody>
+							</table>
+
+							<!--end: Datatable -->
 						</div>
 					</div>
 					</div>
@@ -165,26 +219,10 @@
 		<!--end::Portlet-->
 	</div>
 </div> 			
-<script>
-	$(document).ready(function(){
-	    $("#switch4").click(function(){
-	    	alert( "Handler for .change() called." );
-	        $("#switchForm4").submit(); // Submit the form
-	    });
-	});
-	$(document).ready(function(){
-	    $("#switch1").change(function(){        
-	        $("#switchForm1").submit(); // Submit the form
-	    });
-	});
-	$(document).ready(function(){
-	    $("#switch2").change(function(){        
-	        $("#switchForm2").submit(); // Submit the form
-	    });
-	});
-	$(document).ready(function(){
-	    $("#switch3").change(function(){        
-	        $("#switchForm3").submit(); // Submit the form
-	    });
-	});
-</script>
+
+
+<!--begin::Page Scripts(used by this page) -->
+
+<!--for Select Change -->
+<script src="assets/js/contact/contact_details.js" type="text/javascript"></script>
+<!--for Select Change -->

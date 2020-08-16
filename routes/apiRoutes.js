@@ -22,8 +22,14 @@ const {
     getAllLeadCampaignData 
 } = require('../controllers/apiControllers/leadCampaignDataController');
 const { 
-    createLead, updateLead, deleteLead, getAllLeads, getLead 
+    createLead, updateLead, deleteLead, getAllLeads, getLead, convertLead 
 } = require('../controllers/apiControllers/leadController');
+const { 
+    createContact, updateContact, deleteContact, getAllContacts, getContact 
+} = require('../controllers/apiControllers/contactController');
+const { 
+    createAccount, updateAccount, deleteAccount, getAllAccounts, getAccount
+} = require('../controllers/apiControllers/accountController');
 
 const {
     updateLeadPreference, deleteLeadPreference, getLeadPreference, getAllLeadPreferences, 
@@ -32,6 +38,47 @@ console.log("I am in api/v1 routes");
 
 
 //Lead campaign Routes
+
+// Account ROUTES
+
+router.post('/accounts/create', createAccount); 
+
+router.post('/accounts/:accountId/update', updateAccount); 
+
+router.get('/accounts/:accountId/delete', deleteAccount); 
+
+router.get('/accounts/:accountId', getAccount); 
+
+router.get('/accounts', getAllAccounts); 
+
+// router.post('/accountPreference/:accountPreferenceId/update', updateAccountPreference);
+
+// router.get('/accountPreference/:accountPreferenceId/delete', deleteAccountPreference); 
+
+// router.get('/accountPreference/:accountPreferenceId', getAccountPreference); 
+
+// router.get('/accountPreference', getAllAccountPreferences);
+
+// Contact ROUTES
+
+router.post('/contacts/create', createContact); 
+
+router.post('/contacts/:contactId/update', updateContact); 
+
+router.get('/contacts/:contactId/delete', deleteContact); 
+
+router.get('/contacts/:contactId', getContact); 
+
+router.get('/contacts', getAllContacts); 
+
+// router.post('/contactPreference/:contactPreferenceId/update', updateContactPreference);
+
+// router.get('/contactPreference/:contactPreferenceId/delete', deleteContactPreference); 
+
+// router.get('/contactPreference/:contactPreferenceId', getContactPreference); 
+
+// router.get('/contactPreference', getAllContactPreferences);
+
 //Campaign Routes
 router.post('/users/:userId/campaigns/create', createCampaign);
 
@@ -93,6 +140,8 @@ router.get('/leadCampaignData', getAllLeadCampaignData);
 router.post('/leads/create', createLead); 
 
 router.post('/leads/:leadId/update', updateLead); 
+
+router.post('/leads/:leadId/convert', convertLead); 
 
 router.get('/leads/:leadId/delete', deleteLead); 
 

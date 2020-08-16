@@ -214,11 +214,7 @@ case 'GET PREFERENCE LIST' : %>
        <%- include ('../pages/preference/preference-list') %>
        <% break;    
        
-        // ACCOUNT PAGES
-
-case 'GET ACCOUNT CREATE' : %>
-       <%- include ('../pages/account/account-create') %>
-       <% break;
+       // ACCOUNT PAGES
 
 case 'GET ACCOUNT UPDATE' : %>
        <%- include ('../pages/account/account-update') %>
@@ -231,6 +227,20 @@ case 'GET ACCOUNT DETAILS' : %>
 case 'GET ACCOUNT LIST' : %>
        <%- include ('../pages/account/account-list') %>
        <% break;    
+       
+       // CONTACT PAGES
+
+case 'GET CONTACT UPDATE' : %>
+      <%- include ('../pages/contact/contact-update') %>
+      <% break;
+      
+case 'GET CONTACT DETAILS' : %>
+      <%- include ('../pages/contact/contact-details') %>
+      <% break;
+      
+case 'GET CONTACT LIST' : %>
+      <%- include ('../pages/contact/contact-list') %>
+      <% break;      
 
 default : %>
        <%- include ('../pages/index') %>

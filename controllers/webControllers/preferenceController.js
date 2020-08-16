@@ -43,12 +43,11 @@ exports.createPreference = async (req, res) => {
 };
 
 exports.getUpdatePreference = async (req, res) => {
-    const {data} = await axiosFetch(req, 'GET', '/preferences');
-    const preferences = await data;
-    const preference = preferences.filter( preference=> preference.id === Number(req.params.preferenceId))
-    console.log(preference)
+    const {data} = await axiosFetch(req, 'GET', `/preferences/${req.params.preferenceId}`);
+    const preference = await data;
+    console.log(preference);
     //Success Response
-    renderPage(req, res, 'Update Preference', 'GET PREFERENCE UPDATE', {preference, preferences})
+    renderPage(req, res, 'Update Preference', 'GET PREFERENCE UPDATE', {preference})
   
 };
 exports.updatePreference = async (req, res) => {

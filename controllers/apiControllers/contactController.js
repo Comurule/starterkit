@@ -1,5 +1,5 @@
 /**
- * Controller for Account.
+ * Controller for Contact.
  * Author: Chibuike Umechukwu.
  * Version: 1.0.0
  * Release Date: 20-July-2020
@@ -9,88 +9,88 @@
 /**
  * Module dependencies.
  */
-const { Account, Lead, PreferenceCenter } = require('../../models');
+const { Contact, PreferenceCenter } = require('../../models');
 const{ 
     errorRes, errorLog, successResWithData, successRes
 } = require('../../utils/apiResponse');
 
 // Handle User create on POST.
-exports.createAccount = async(req, res) => {    
+exports.createContact = async(req, res) => {    
     try {
-        const accountData = await validateInput(req, res);
-        if(typeof accountData === 'string') return errorRes(res, accountData);
+        const contactData = await validateInput(req, res);
+        if(typeof contactData === 'string') return errorRes(res, contactData);
         //check for duplicate in the database
-        const checkAccount = await Account.findOne({ where: { email: accountData.email }  });
-        if(checkAccount) {
+        const checkContact = await Contact.findOne({ where: { email: contactData.email }  });
+        if(checkContact) {
             return errorRes( res, 'This Email has been used...')
         };
 
-        const createdAccount = await Account.create({
-            ...accountData,
+        const createdContact = await Contact.create({
+            ...contactData,
             modifiedBy: req.user? req.user.id: null,
             departmentId: req.user.departmentId,
             currentBusinessId: req.user.currentBusinessId,
         });
 
         //add the selected preferences
-        const addPreferences = await createOrUpdatePreferences( req, res, createdAccount, 'create' )
+        const addPreferences = await createOrUpdatePreferences( req, res, createdContact, 'create' )
         if(!addPreferences) {
-            await Account.destroy({ where: { id: createdAccount.id } })
+            await Contact.destroy({ where: { id: createdContact.id } })
             return errorRes(res, 'Failed to add Preferences');
         };
 
         //Success Response
-        const data = await createdAccount;
-        successResWithData( res, 'Account created Successfully', data ); 
+        const data = await createdContact;
+        successResWithData( res, 'Contact created Successfully', data ); 
 
     } catch (error) {
         console.log(error);
-        await Account.destroy({ where: { id: createdAccount.id } })
-        errorLog( res, 'Account creation was Unsuccessful.')
+        await Contact.destroy({ where: { id: createdContact.id } })
+        errorLog( res, 'Contact creation was Unsuccessful.')
     }
     
 };
  
-exports.updateAccount = async(req, res) => {
+exports.updateContact = async(req, res) => {
     try {
-        const accountData = validateInput(req, res);
-        if(typeof accountData === 'string') return errorRes(res, accountData)
+        const ContactData = validateInput(req, res);
+        if(typeof contactData === 'string') return errorRes(res, contactData)
         //check for duplicate in the database
-        const checkAccount = await Account.findOne({ where: { email: accountData.email }  });
-        if( checkAccount && checkAccount.id != req.params.accountId ) {
+        const checkContact = await Contact.findOne({ where: { email: contactData.email }  });
+        if( checkContact && checkContact.id != req.params.contactId ) {
             return errorRes( res, 'This Email has been used...')
         }
             
-        await Account.update( {
-            ...accountData,
+        await Contact.update( {
+            ...contactData,
             modifiedBy: req.user? req.user.id: null
         }, { 
-            where: { id: req.params.accountId } 
+            where: { id: req.params.contactId } 
         });
 
         //add the selected preferences
-        const data = await Account.findByPk( req.params.accountId, {include: PreferenceCenter} );
+        const data = await Contact.findByPk( req.params.contactId, {include: PreferenceCenter} );
         const updatePreferences = await createOrUpdatePreferences( req, res, data, 'update' )
-        if(!updatePreferences)return errorRes(res, 'Account Updated but Failed to update Preferences');
+        if(!updatePreferences)return errorRes(res, 'Contact Updated but Failed to update Preferences');
 
         //Success Response
-        successResWithData( res, 'Account updated Successfully', data );
+        successResWithData( res, 'Contact updated Successfully', data );
    
     } catch (error) {
         console.log(error);
-        errorLog( res, 'Account update was Unsuccessful.')
+        errorLog( res, 'Contact update was Unsuccessful.')
     }
     
 };
 
-exports.getAccount = async (req, res) =>{
+exports.getContact = async (req, res) =>{
     try {
-        const account = await Account.findByPk(req.params.accountId, {include: PreferenceCenter});
-        if(!account) errorRes( res, 'Invalid Account Id');
+        const contact = await Contact.findByPk(req.params.contactId, {include: PreferenceCenter});
+        if(!contact) errorRes( res, 'Invalid Contact Id');
 
         //Success Response
-        const data = await account;
-        successResWithData( res, 'Account Details', data );
+        const data = await contact;
+        successResWithData( res, 'Contact Details', data );
                
     } catch (error) {
         console.log(error);
@@ -99,12 +99,12 @@ exports.getAccount = async (req, res) =>{
     
 };
 
-exports.deleteAccount = async (req, res) =>{
+exports.deleteContact = async (req, res) =>{
     try {
-        await Account.destroy( { where: { id: req.params.accountId }  } );
+        await Contact.destroy( { where: { id: req.params.contactId }  } );
         
         //Success Response
-        successRes( res, 'Account record deleted successfully.' );
+        successRes( res, 'Contact record deleted successfully.' );
                
     } catch (error) {
         console.log(error);
@@ -113,9 +113,9 @@ exports.deleteAccount = async (req, res) =>{
     
 };
 
-exports.getAllAccounts = async (req, res) => {
+exports.getAllContacts = async (req, res) => {
     try {
-        const accounts = await Account.findAll({
+        const contacts = await Contact.findAll({
             where: {
                 departmentId: req.user.departmentId,
                 currentBusinessId: req.user.currentBusinessId,
@@ -123,8 +123,8 @@ exports.getAllAccounts = async (req, res) => {
         });
         
         //Success Response
-        const data = await accounts;
-        successResWithData( res, 'Account List', data ) 
+        const data = await Contacts;
+        successResWithData( res, 'Contact List', data ) 
 
     } catch (error) {
         console.log(error)
@@ -143,14 +143,14 @@ const validateInput = (req, res) => {
     const address = (req.body.address != '')? req.body.address.trim():'';
     const city = (req.body.city != '')? req.body.city.trim(): '';
     const country = (req.body.country != '')? req.body.country.trim(): '';
-    const billingCurrency = (req.body.billingCurrency != '')? req.body.billingCurrency.trim().toUpperCase(): '';
-    const billingLanguage = (req.body.billingLanguage != '')? req.body.billingLanguage.trim(): '';
-    const billingName = (req.body.billingName != '')? req.body.billingName.trim(): '';
-    const billingEmail = (req.body.billingEmail != '')? req.body.billingEmail.trim(): '';
-    const billingWebsite = (req.body.billingWebsite != '')? req.body.billingWebsite.trim(): '';
-    const billingAddress = (req.body.billingAddress != '')? req.body.billingAddress.trim(): '';
-    const billingCity = (req.body.billingCity != '')? req.body.billingCity.trim(): '';
-    const billingCountry = (req.body.billingCountry != '')? req.body.billingCountry.trim(): '';
+    const mailingCurrency = (req.body.mailingCurrency != '')? req.body.mailingCurrency.trim().toUpperCase(): '';
+    const mailingLanguage = (req.body.mailingLanguage != '')? req.body.mailingLanguage.trim(): '';
+    const mailingName = (req.body.mailingName != '')? req.body.mailingName.trim(): '';
+    const mailingEmail = (req.body.mailingEmail != '')? req.body.mailingEmail.trim(): '';
+    const mailingWebsite = (req.body.mailingWebsite != '')? req.body.mailingWebsite.trim(): '';
+    const mailingAddress = (req.body.mailingAddress != '')? req.body.mailingAddress.trim(): '';
+    const mailingCity = (req.body.mailingCity != '')? req.body.mailingCity.trim(): '';
+    const mailingCountry = (req.body.mailingCountry != '')? req.body.mailingCountry.trim(): '';
      
     
     //check for empty fields
@@ -166,13 +166,13 @@ const validateInput = (req, res) => {
             return 'Password should not be less than 8 characters.';
     }
 
-    //validate billingCurrency 
-    if( billingCurrency != '' && (!billingCurrency.match(/^[A-Za-z]+$/) || billingCurrency.trim().length != 3) )
+    //validate mailingCurrency 
+    if( mailingCurrency != '' && (!mailingCurrency.match(/^[A-Za-z]+$/) || mailingCurrency.trim().length != 3) )
         return 'Currency should have 3 CAPITAL letters only.';
 
-    //validate billingWebsite
+    //validate mailingWebsite
     const regex = new RegExp(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi)
-    if( billingWebsite != '' && !billingWebsite.match(regex) ) return 'Wrong company URL...';
+    if( mailingWebsite != '' && !mailingWebsite.match(regex) ) return 'Wrong company URL...';
     
     //Success output
     return {
@@ -184,15 +184,14 @@ const validateInput = (req, res) => {
         address,
         city,
         country,
-        billingCurrency: billingCurrency != '' ? billingCurrency : null,
-        billingLanguage,
-        billingName,
-        billingEmail,
-        billingWebsite,
-        billingAddress,
-        billingCity,
-        billingCountry,
-        leadId: req.body.leadId,
+        mailingCurrency: mailingCurrency != '' ? mailingCurrency : null,
+        mailingLanguage,
+        mailingName,
+        mailingEmail,
+        mailingWebsite,
+        mailingAddress,
+        mailingCity,
+        mailingCountry,
         createdBy: req.body.createdBy != '' ? req.body.createdBy : null,
     }
 };
@@ -203,7 +202,7 @@ const createOrUpdatePreferences = async(req, res, data, actionType) => {
     if( !preferences) 
         return false
 
-    //Create Preferences in Account Profile
+    //Create Preferences in Contact Profile
     if( actionType == 'create' && preferences.length > 0 ) {
         try {
             if(preferences.length == 1){
@@ -224,12 +223,12 @@ const createOrUpdatePreferences = async(req, res, data, actionType) => {
             console.log(error);
             return false
         }
-        //Update Preferences in Account Profile
+        //Update Preferences in Contact Profile
     } else if ( actionType == 'update' && preferences.length > 0 ) {
         try {
-            //delete all account preferences            
+            //delete all Contact preferences            
             await data.removePreferenceCenter(data.PreferenceCenters)
-            //add the incoming Preferences to this account
+            //add the incoming Preferences to this Contact
             let preferenceId;
             if(preferences.length == 1){
                 preferenceId = (typeof preferences == 'object')? preferences[0] : preferences;

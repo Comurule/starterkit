@@ -4,9 +4,10 @@ var auth = require('./../modules/auth');
 
 router.get('/', function(req, res, next) {
     var viewData = {
+        layout: 'layouts/detail',
         title: 'Login page',
     }
-    res.render('pages/loginMain', viewData);
+    res.render('pages/loginMain', viewData); 
 });
 
 // router.post('/', function(req, res, next) {

@@ -12,6 +12,30 @@ module.exports = (sequelize, DataTypes) => {
   Department.associate = function(models) {
     models.Department.hasMany(models.User);
     models.Department.hasMany(models.Post);
+    models.Department.hasMany(models.Lead, {
+      foreignKey: {
+        name: 'departmentId',
+        allowNull: false
+      }
+    });
+    models.Department.hasMany(models.Contact, {
+      foreignKey: {
+        name: 'departmentId',
+        allowNull: false
+      }
+    });
+    models.Department.hasMany(models.Account, {
+      foreignKey: {
+        name: 'departmentId',
+        allowNull: false
+      }
+    });
+    models.Department.hasMany(models.PreferenceCenter, {
+      foreignKey: {
+        name: 'departmentId',
+        allowNull: false
+      }
+    });
   };
   
   return Department;

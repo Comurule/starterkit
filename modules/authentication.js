@@ -212,18 +212,16 @@ module.exports = function (req, res) {
                 console.log('I am done creating or updating user');
 
                 // automatically logs user in and redirect to /user to confirm user has been logged in
-                auth.checkCredentials( user.email, user.CurrentBusinessId, password, ( err, user ) => {
+                await auth.checkCredentials( user.email, user.CurrentBusinessId, password, async ( err, user ) => {
                     if( err ) {
                         console.log('You are bounced here')
                         res.redirect('https://manifestusermodule.herokuapp.com/login');
                         return next();
                     }
-                    req.login(user, function() {
-                        next();
-                        
-                        console.log('You are logged Into the system...')
+                    await req.login(user, function() {
+                        console.log('You are logged Into the system...')                        
                     } );
-
+                    return next();
                 } )
             }
             

@@ -54,15 +54,6 @@
 								<div class="">
 								<select class="form-control kt-select2" id="kt_select2_0" name="parentPC">
 									<option value="">Select An Option</option>
-									<% let selected = '';
-									preferences.forEach(pc => { 
-										if(preference[0].parentPC != null){
-											if(pc.id === preference[0].parentPC){
-												selected = 'selected';
-											}
-										} %>
-										<option value="<%=pc.id%>" <%= selected %>><%=pc.name%></option>
-									<% }) %>
 								</select>
 								</div>
 							</div>

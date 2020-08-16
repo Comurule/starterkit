@@ -61,6 +61,8 @@
 												<div class="input-group">
 													<div class="input-group-prepend"><span class="input-group-text" id="basic-addon1">Tier </span></div>														
 													<input type="text" class="form-control" name="tier" placeholder="1">
+													<input type="hidden" class="form-control" name="departmentId" value="<% user.departmentId %>">
+													<input type="hidden" class="form-control" name="currentBusinessId" value="user.currentBusinessId">
 												</div>
 											</div>
 										</div>
@@ -81,7 +83,7 @@
 													<label class="">Parent Preference Center:</label>
 													<div class="">
 													<select class="form-control kt-select2" id="kt_select2_0" name="parentPC">
-														<option>Select An Option</option>
+														<option value="">Select An Option</option>
 													</select>
 													</div>
 												</div>

@@ -28,13 +28,15 @@ module.exports = (sequelize, DataTypes) => {
     leadCurrency: {
       type: DataTypes.STRING,
       defaultValue: 'USD',
+      allowNull: true,
       validate: {
         len: [3, 4] // must be between 3 and 4.
       }
     },
     leadLanguage: { type: DataTypes.STRING, defaultValue: 'english' },
     leadStatus: {
-      type: DataTypes.ENUM('new', 'converted'),
+      type: DataTypes.ENUM('new', 'converted'),      
+      allowNull: false,
       defaultValue: 'new'
     },
 
@@ -67,12 +69,18 @@ module.exports = (sequelize, DataTypes) => {
 
 
   Lead.associate = (models) => {
-
-    //   models.Lead.hasMany(models.Post);
-
-    //   models.Lead.belongsTo(models.Department, {
-    //     allowNull: true
-    //   });
+    models.Account.belongsTo(models.Department, {
+      foreignKey: {
+        name: 'departmentId',
+        allowNull: false
+    }
+    });
+    models.Account.belongsTo(models.CurrentBusiness, {
+      foreignKey: {
+        name: 'currentBusinessId',
+        allowNull: false
+    }
+    });
 
     //   models.Lead.belongsTo(models.Profile, {
     //     allowNull: true
@@ -82,9 +90,6 @@ module.exports = (sequelize, DataTypes) => {
     //     allowNull: true
     //   });
 
-    //   models.Lead.belongsTo(models.CurrentBusiness, {
-    //     allowNull: true
-    //   });
 
     //   models.Lead.hasMany(models.CampaignData, {
     //     foreignKey: {

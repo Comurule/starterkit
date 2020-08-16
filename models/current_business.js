@@ -12,16 +12,32 @@ module.exports = (sequelize, DataTypes) => {
   CurrentBusiness.associate = function(models) {
     models.CurrentBusiness.hasMany(models.User);
     models.CurrentBusiness.hasMany(models.Post);
+    models.CurrentBusiness.hasMany(models.Lead, {
+      foreignKey: {
+        name: 'currentBusinessId',
+        allowNull: false
+      }
+    });
+    models.CurrentBusiness.hasMany(models.Contact, {
+      foreignKey: {
+        name: 'currentBusinessId',
+        allowNull: false
+      }
+    });
+    models.CurrentBusiness.hasMany(models.Account, {
+      foreignKey: {
+        name: 'currentBusinessId',
+        allowNull: false
+      }
+    });
+    models.CurrentBusiness.hasMany(models.PreferenceCenter, {
+      foreignKey: {
+        name: 'currentBusinessId',
+        allowNull: false
+      }
+    });
   };
-  
-  // CurrentBusiness.associate = function(models) {
-  //   models.CurrentBusiness.belongsToMany(models.User,{ 
-  //     as: 'users', 
-  //     through: 'UserCurrentBusinesses',
-  //     foreignKey: 'currentbusiness_id'
-  //   });
-  //   models.CurrentBusiness.hasMany(models.Post);
-  // };
+ 
   
   return CurrentBusiness;
 };

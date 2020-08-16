@@ -17,8 +17,12 @@ const {
 } = require('../controllers/webControllers/leadController');
 
 const { 
-    createAccount, updateAccount, deleteAccount, getAllAccounts, getAccount, getCreateAccount, getUpdateAccount
+    deleteAccount, getAllAccounts, getAccount, getUpdateAccount
 } = require('../controllers/webControllers/accountController');
+
+const { 
+    deleteContact, getAllContacts, getContact, getUpdateContact
+} = require('../controllers/webControllers/contactController');
 
 const { 
     deletePreference, getPreference, getAllPreference, getCreatePreference, getUpdatePreference
@@ -54,17 +58,24 @@ router.get('/leads', getAllLeads);
 
 // ACCOUNT ROUTES
 
-router.get('/accounts/create', getCreateAccount);
-router.post('/accounts/create', createAccount); 
-
 router.get('/accounts/:accountId/update', getUpdateAccount);
-router.post('/accounts/:accountId/update', updateAccount); 
 
 router.get('/accounts/:accountId/delete', deleteAccount); 
 
 router.get('/accounts/:accountId', getAccount); 
 
 router.get('/accounts', getAllAccounts);
+
+
+// CONTACT ROUTES
+
+router.get('/contacts/:contactId/update', getUpdateContact);
+
+router.get('/contacts/:contactId/delete', deleteContact); 
+
+router.get('/contacts/:contactId', getContact); 
+
+router.get('/contacts', getAllContacts);
 
 
 // USER ROUTES

@@ -89,11 +89,7 @@
 										<label class="">Preference Centers:</label>
 										<div>
 											<select class="form-control kt-select2" id="kt_select2_3" name="preferences" multiple="multiple">
-												<% if(preferences.length > 0) {
-													preferences.forEach( preference =>{ %>
-													<option value="<%= preference.id %>"><%= preference.name%></option>	
-													<% }); %>
-												<% } %>
+												<option value="">-------Choose-------</option>
 											</select>
 										</div>
 									</div>

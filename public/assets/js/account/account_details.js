@@ -61,57 +61,32 @@ const updateLead= async (event, leadId) => {
     };
 };
 
-const updateIsActive = async (event, leadPreferenceId, leadId) => {
-  event.preventDefault();
-  const isActive = event.target;
-  const bodyData = {
-    isActive: isActive.value == 'true' ? false : true,
-  };
-  try {
-    const data = await fetchData(`/leadpreference/${leadPreferenceId}/update`, bodyData);
-    //Response Notification
-    await fetchResponse(data, `/main/leads/${leadId}`);      
-  } catch (error) {
-    console.log(error);
-  };
-};
+// const updateIsActive = async (event, leadPreferenceId, leadId) => {
+//   event.preventDefault();
+//   const isActive = event.target;
+//   const bodyData = {
+//     isActive: isActive.value == 'true' ? false : true,
+//   };
+//   try {
+//     const data = await fetchData(`/leadpreference/${leadPreferenceId}/update`, bodyData);
+//     //Response Notification
+//     await fetchResponse(data, `/main/leads/${leadId}`);      
+//   } catch (error) {
+//     console.log(error);
+//   };
+// };
 
-const updateEnrolled = async (event, leadPreferenceId, leadId) => {
-  event.preventDefault();
-  const enrolled = event.target;
-  const bodyData = {
-    enrolled: enrolled.value == 'true' ? false : true,
-  };
-  try {
-    const data = await fetchData(`/leadpreference/${leadPreferenceId}/update`, bodyData);
-    //Response Notification
-    await fetchResponse(data, `/main/leads/${leadId}`);      
-  } catch (error) {
-    console.log(error);
-  };
-};
-
-const convertLead = async (leadId) => {
-  const response = await fetch(`api/v1/leads/${leadId}`);
-  const {data} = await response.json();
-  let count = 0;
-  //check for empty or null fields
-  Object.entries(data).forEach(([key, value])=> {
-    if(value=='' || value== null){
-      count++
-    };
-    return count;
-  });
-  if (count > 0){
-    // show notification
-    await swal.fire(
-      'Failed!',
-      `There are ${count} empty fields In this record. 
-      Only "COMPLETELY FILLED" Lead records can be converted.`,
-      'error'
-    );
-    location.href = `/main/leads/${leadId}/update` 
-  } else {
-
-  };
-};
+// const updateEnrolled = async (event, leadPreferenceId, leadId) => {
+//   event.preventDefault();
+//   const enrolled = event.target;
+//   const bodyData = {
+//     enrolled: enrolled.value == 'true' ? false : true,
+//   };
+//   try {
+//     const data = await fetchData(`/leadpreference/${leadPreferenceId}/update`, bodyData);
+//     //Response Notification
+//     await fetchResponse(data, `/main/leads/${leadId}`);      
+//   } catch (error) {
+//     console.log(error);
+//   };
+// };

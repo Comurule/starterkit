@@ -20,15 +20,21 @@ exports.createLead = async(req, res) => {
         const leadData = await validateInput(req, res);
         if(typeof leadData === 'string') return errorRes(res, leadData);
         //check for duplicate in the database
-        const checkLead = await Lead.findOne({ where: { email: leadData.email }  });
+        const checkLead = await Lead.findOne({ where: { 
+            email: leadData.email,            
+            departmentId: req.user['dataValues'].DepartmentId,
+            currentBusinessId: req.user['dataValues'].CurrentBusinessId 
+        }  });
         if(checkLead) {
             return errorRes( res, 'This Email has been used...')
         };
 
         const createdLead = await Lead.create({
             ...leadData,
-            createdBy: req.user? req.user.id: null,
-            modifiedBy: req.user? req.user.id: null
+            createdBy: req.user.id,
+            modifiedBy: req.user.id,
+            departmentId: req.user.DepartmentId,
+            currentBusinessId: req.user.CurrentBusinessId,
         });
 
         //add the selected preferences
@@ -53,17 +59,24 @@ exports.createLead = async(req, res) => {
 exports.updateLead = async(req, res) => {
     try {
         const leadData = validateInput(req, res);
-        if(typeof leadData === 'string') return errorRes(res, leadData)
+        if(typeof leadData === 'string') return errorRes(res, leadData);
+
         //check for duplicate in the database
-        const checkLead = await Lead.findOne({ where: { email: leadData.email }  });
+        const checkLead = await Lead.findOne({ where: { 
+            email: leadData.email,
+            departmentId: req.user['dataValues'].DepartmentId,
+            currentBusinessId: req.user['dataValues'].CurrentBusinessId
+        }  });
         if( checkLead && checkLead.id != req.params.leadId ) {
             return errorRes( res, 'This Email has been used...')
-        }
+        };
+        //check if the Lead is converted
+        if( checkLead.leadStatus == 'converted') 
+            return errorRes( res, 'You can not update a "converted" Lead');
             
         await Lead.update( {
             ...leadData,
-            createdBy: req.user? req.user.id: null,
-            modifiedBy: req.user? req.user.id: null
+            modifiedBy: req.user.id
         }, { 
             where: { id: req.params.leadId } 
         });
@@ -87,10 +100,9 @@ exports.getLead = async (req, res) =>{
     try {
         const lead = await Lead.findByPk(req.params.leadId, {include: PreferenceCenter});
         if(!lead) errorRes( res, 'Invalid Lead Id');
-
         //Success Response
         const data = await lead;
-        successResWithData( res, 'Lead Account Details', data );
+        successResWithData( res, 'Lead Details', data );
                
     } catch (error) {
         console.log(error);
@@ -101,6 +113,12 @@ exports.getLead = async (req, res) =>{
 
 exports.deleteLead = async (req, res) =>{
     try {
+        //check if the Lead is in the Database
+        const checkLead = await Lead.findByPk(req.params.leadId);
+        if(!checkLead) return errorRes(res, 'Invalid Lead Id');
+        //check if the Lead is converted
+        if( checkLead.leadStatus == 'converted') 
+            return errorRes( res, 'You can not delete a "converted" Lead');
         await Lead.destroy( { where: { id: req.params.leadId }  } );
         
         //Success Response
@@ -115,7 +133,12 @@ exports.deleteLead = async (req, res) =>{
 
 exports.getAllLeads = async (req, res) => {
     try {
-        const leads = await Lead.findAll();
+        const leads = await Lead.findAll({
+            where: {
+                departmentId: req.user.DepartmentId,
+                currentBusinessId: req.user.CurrentBusinessId,
+            }
+        });
         
         //Success Response
         const data = await leads
@@ -124,6 +147,20 @@ exports.getAllLeads = async (req, res) => {
     } catch (error) {
         console.log(error)
         errorLog( res, 'Something went Wrong' );
+    }
+    
+};
+
+exports.convertLead = async(req, res) => {
+    try {
+        await Lead.update({ leadStatus: req.body.status.trim() }, {
+            where: { id: req.params.leadId }
+        }); 
+        //Success Response
+        successRes(res, 'Lead converted Successfully...');
+    } catch (error) {
+        console.log(error);
+        errorLog(res, 'Something went wrong...')
     }
     
 };

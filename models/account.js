@@ -67,17 +67,27 @@ module.exports = (sequelize, DataTypes) => {
 
 
   Account.associate = (models) => {
-
-      models.Account.belongsTo(models.Lead, {
-        foreignKey: {
-            name: 'leadId',
-            allowNull: true
-        }
-      });
-      
-      models.Account.belongsToMany(models.PreferenceCenter, {
-      through: 'AccountPreferences',
-      foreignKey: 'accountId'
+    models.Account.belongsTo(models.Lead, {
+      foreignKey: {
+          name: 'leadId',
+          allowNull: false
+      }
+    });
+    models.Account.belongsToMany(models.PreferenceCenter, {
+    through: 'AccountPreferences',
+    foreignKey: 'accountId'
+    });
+    models.Account.belongsTo(models.Department, {
+      foreignKey: {
+        name: 'departmentId',
+        allowNull: false
+    }
+    });
+    models.Account.belongsTo(models.CurrentBusiness, {
+      foreignKey: {
+        name: 'currentBusinessId',
+        allowNull: false
+    }
     });
 
   };

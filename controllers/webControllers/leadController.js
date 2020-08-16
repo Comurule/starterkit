@@ -7,21 +7,15 @@ const { renderPage, axiosFetch } = require("../../utils/webResponse");
 const { errorRes, errorLog, successResWithData, successRes } = require('../../utils/apiResponse');
 
 exports.getCreateLead = async (req, res) => {
-    const {data} = await axiosFetch(req, 'GET', '/preferences', '');
-    const preferences = await data;
-    renderPage(req, res, 'Create Lead', 'GET LEAD CREATE', {preferences});
+    // const {data} = await axiosFetch(req, 'GET', '/preferences', '');
+    // const preferences = await data;
+    renderPage(req, res, 'Create Lead', 'GET LEAD CREATE');
 };
  
 exports.getUpdateLead = async (req, res) => {
-    const response = await axios.all([
-       axiosFetch(req, 'GET', `/leads/${req.params.leadId}`),
-       axiosFetch(req, 'GET', '/preferences')
-    ]);
-    const lead = response[0].data;
-    const preferences = response[1].data;
-    
-    lead.preferences = lead.PreferenceCenters.map(pc=> pc.id);
-    renderPage(req, res, 'Update Lead', 'GET LEAD UPDATE', {preferences, lead})
+    const response = await axiosFetch(req, 'GET', `/leads/${req.params.leadId}`);
+    const lead = await response.data;
+    renderPage(req, res, 'Update Lead', 'GET LEAD UPDATE', {lead})
 };
 
 exports.getLead = async (req, res) =>{

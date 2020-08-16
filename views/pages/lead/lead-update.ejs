@@ -85,25 +85,21 @@
 									<div class="form-group col-xl-4 col-lg-4 col-sm-12">
 										<label class="">Preferred Currency</label>
 										<div class="">
-										<select class="form-control kt-select2" id="kt_select2_4" name="leadCurrency">
+										<!-- <select class="form-control kt-select2" id="kt_select2_4" name="leadCurrency">
 											<option></option>
 											<optgroup label="Alaskan/Hawaiian Time Zone">
 												<option value="AK">Alaska</option>
 												<option value="HI">Hawaii</option>
 											</optgroup>
-										</select>
+										</select> -->
+										<input class="form-control" type="text" name="leadCurrency" value="<%= lead.leadCurrency %>">
 										</div>
 									</div>
 									<div class="form-group col-xl-6 col-lg-6 col-sm-12">
 										<label class="">Preference Centers</label>
 										<div>
 											<select class="form-control kt-select2" id="kt_select2_3" name="preferences" multiple="multiple">
-													<% let selected = '';
-													preferences.forEach(preference => { 
-														selected= lead.preferences.includes(preference.id) ? 'selected' : '';
-													%>
-														<option value="<%=preference.id%>" <%= selected %>><%=preference.name%></option>
-													<% }) %>
+													<option value="">-------Choose-------</option>
 											</select>
 										</div>
 									</div>

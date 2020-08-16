@@ -20,19 +20,23 @@ auth.initializeStrategy = function(passport) {
         },
         function(req, email, password, cb) {
             console.log(email);console.log(password);
-            auth.checkLocalUser( email, password, cb ); //change auth to this
+            auth.checkLocalUser( req, email, password, cb ); //change auth to this
         }));
 
     passport.serializeUser(function(user, cb) {
+        console.log('Serialize User', user.id);
         cb(null, user.id);
     });
 
     passport.deserializeUser(function(id, cb) {
+        console.log('deserialize User...', id)
         models.User.findByPk(id).then(function(user) {
             if (user) {
-                cb(null, user);
+                console.log('found User...')
+                return cb(null, user);
             } else {
                 // return cb(null);
+                console.log('could not find User')
                 return cb(null, false);
                 // return cb(null, user.id);
 

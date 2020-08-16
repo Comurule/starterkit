@@ -83,7 +83,7 @@ var datatable = $('.kt_datatable').KTDatatable({
         width: 100,
         template: function (row) {
         return `
-            <a href="/main/preferences/${row.id}/update" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit Preference">
+            <a id="updatePreference" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit Preference">
                 <i class="la la-edit"></i>
             </a>
             <a href="/main/preferences/${row.id}/delete" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete Preference" href="/main/preferences/${row.id}/delete">
@@ -210,7 +210,7 @@ const createPreferenceHandler = async (event) => {
             tier: form.tier.value, 
             pcCode: form.pcCode.value, 
             displayType: form.displayType.value, 
-            parentPC: form.parentPC.value
+            parentPC: form.parentPC.value,
         })
     });
     const data = await request.json();
