@@ -97,7 +97,7 @@ exports.deleteLeadPreference = async (req, res) =>{
 
 exports.getAllLeadPreferences = async (req, res) => {
     try {
-        const LeadPrefs = await LeadPreference.findAll();
+        const LeadPrefs = await LeadPreference.findAll({ include: [ Lead, PreferenceCenter ] });
         
         //Success Response
         const data = await LeadPrefs

@@ -10,11 +10,6 @@
 			<div class="kt-portlet__body">
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-md-6">
-							<p><b>Status: </b><%= account.accountStatus[0].toUpperCase()+account.accountStatus.slice(1)%></p>
-						</div>
-					</div>
-					<div class="row">
 						<div class="col-md-8 col-xl-6">
 							<p><b>Full Name: </b><%= account.firstName + ' ' + account.lastName %></p>
 						</div>
@@ -153,42 +148,6 @@
 								    <% account.PreferenceCenters.forEach ( preference => { %>
 								        <tr>
     										<td><%= preference.name %></td>
-    										<td>
-												<% 
-												let checked = ''; let enrolled = ''; let value = ''; 
-												checked = (preference.AccountPreference.enrolled)? 'checked' : '';
-												enrolled = (preference.AccountPreference.enrolled)? 'Enrolled' : 'Not Enrolled';
-												value = (preference.AccountPreference.enrolled)? 'true' : 'false';
-												%>
-												<div><%= enrolled %></div> 
-												<form id="switchForm4">
-													<span class="kt-switch kt-switch--sm">
-														<label>
-															<input type="hidden" name="accountPreferenceId" value="<%= preference.AccountPreference.id%>">
-															<input id="enrolled" type="checkbox" value="<%= value %>" onchange="updateEnrolled(event, <%= preference.AccountPreference.id%>, <%= account.id %>)" <%= checked %> >
-															<span></span>
-														</label>
-													</span>
-												</form>
-    										</td>
-    										<td>
-    										    <% 
-												let checkIsActive = ''; let isActive = ''; let val = '';
-												checkIsActive = (preference.AccountPreference.isActive)? 'checked' : '';
-												isActive = (preference.AccountPreference.isActive)? 'Active' : 'Inactive';
-												val = (preference.AccountPreference.isActive)? 'true' : 'false';
-												%>
-												<div><%= isActive %></div> 
-												<form id="switchForm2">
-													<span class="kt-switch kt-switch--sm">
-														<label>
-															<input type="hidden" name="accountPreferenceId" value="<%= preference.AccountPreference.id%>">
-															<input id="isActive" type="checkbox" value="<%= val %>" onchange="updateIsActive(event, <%= preference.AccountPreference.id%>, <%= account.id %>)"<%= checkIsActive %> >
-															<span></span>
-														</label>
-													</span>
-												</form>
-    										</td>
     									</tr>
 								    <% }) %>
 								</tbody>

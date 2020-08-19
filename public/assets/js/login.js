@@ -47,18 +47,6 @@ var KTLoginPage = function () {
 				KTApp.unprogress(btn[0]);
 			}, 2000);
 			form[0].submit();
-
-			// ajax form submit:  http://jquery.malsup.com/form/
-			// form.ajaxSubmit({
-			// 	url: '/login',
-			// 	success: function (response, status, xhr, $form) {
-			// 		// similate 2s delay
-			// 		setTimeout(function () {
-			// 			KTApp.unprogress(btn[0]);
-			// 			showErrorMsg(form, 'danger', 'Incorrect username or password. Please try again.');
-			// 		}, 2000);
-			// 	}
-			// });
 		});
 	}
 

@@ -17,16 +17,19 @@ const {
 } = require('../controllers/webControllers/leadController');
 
 const { 
-    deleteAccount, getAllAccounts, getAccount, getUpdateAccount
+    deleteAccount, getAllAccounts, getAccount, getCreateAccount, getUpdateAccount
 } = require('../controllers/webControllers/accountController');
 
 const { 
-    deleteContact, getAllContacts, getContact, getUpdateContact
+    deleteContact, getAllContacts, getContact, getCreateContact, getUpdateContact
 } = require('../controllers/webControllers/contactController');
 
 const { 
     deletePreference, getPreference, getAllPreference, getCreatePreference, getUpdatePreference
 } = require('../controllers/webControllers/preferenceController');
+const { 
+    getLeadPreference, getAllLeadPreference 
+} = require('../controllers/webControllers/leadPreferenceController');
 
 console.log("I am in main routes");
 
@@ -41,6 +44,12 @@ router.get('/preferences/:preferenceId/delete', deletePreference);
 router.get('/preferences/:preferenceId', getPreference);
 
 router.get('/preferences', getAllPreference);
+
+//Lead Preferences Routes
+
+router.get('/leadPreference/:leadPreferenceId', getLeadPreference);
+
+router.get('/leadPreference', getAllLeadPreference);
 
 
 // LEAD ROUTES
@@ -58,6 +67,8 @@ router.get('/leads', getAllLeads);
 
 // ACCOUNT ROUTES
 
+router.get('/accounts/create', getCreateAccount);
+
 router.get('/accounts/:accountId/update', getUpdateAccount);
 
 router.get('/accounts/:accountId/delete', deleteAccount); 
@@ -68,6 +79,8 @@ router.get('/accounts', getAllAccounts);
 
 
 // CONTACT ROUTES
+
+router.get('/contacts/create', getCreateContact);
 
 router.get('/contacts/:contactId/update', getUpdateContact);
 

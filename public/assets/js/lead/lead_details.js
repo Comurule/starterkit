@@ -29,6 +29,24 @@ const fetchResponse = async (data, url) =>{
     )
   };
 };
+
+const fetchResWithoutRedirect = async (data) => {
+  if (data.status) {
+    // show notification
+    await swal.fire(
+      'Awesome!',
+      data.message,
+      'success'
+    );
+  } else {
+    // show notification
+    swal.fire(
+      'Failed!',
+      data.message,
+      'error'
+    )
+  };
+};
 //Update Lead Handler
 const updateLead= async (event, leadId) => {
   event.preventDefault();
@@ -92,26 +110,80 @@ const updateEnrolled = async (event, leadPreferenceId, leadId) => {
 };
 
 const convertLead = async (leadId) => {
-  const response = await fetch(`api/v1/leads/${leadId}`);
-  const {data} = await response.json();
-  let count = 0;
-  //check for empty or null fields
-  Object.entries(data).forEach(([key, value])=> {
-    if(value=='' || value== null){
-      count++
-    };
-    return count;
-  });
-  if (count > 0){
-    // show notification
-    await swal.fire(
-      'Failed!',
-      `There are ${count} empty fields In this record. 
-      Only "COMPLETELY FILLED" Lead records can be converted.`,
-      'error'
-    );
-    location.href = `/main/leads/${leadId}/update` 
-  } else {
+  const leadData = await fetch(`api/v1/leads/${leadId}`);
+  const {data} = await leadData.json();
+  const preferences = data.PreferenceCenters.map(pc=>pc.id);
+  const accountData = {
+    firstName: data.firstName, 
+    lastName: data.lastName, 
+    email: data.email,
+    username: data.username,
+    address: data.address,
+    city: data.city,
+    country:data.country,
+    billingCurrency: data.leadCurrency,
+    billingLanguage: data.leadLanguage,
+    billingName: data.companyName,
+    billingEmail: data.companyEmail,
+    billingWebsite: data.companyWebsite,
+    billingAddress: data.companyAddress,
+    billingCity: data.companyCity,
+    billingCountry: data.companyCountry,
+    preferences,
+    leadId: leadId,
+    createdBy: data.createdBy
+  };
+  const contactData = {
+    firstName: data.firstName, 
+    lastName: data.lastName, 
+    email: data.email,
+    username: data.username,
+    address: data.address,
+    city: data.city,
+    country:data.country,
+    mailingCurrency: data.leadCurrency,
+    mailingLanguage: data.leadLanguage,
+    mailingName: data.companyName,
+    mailingEmail: data.companyEmail,
+    mailingWebsite: data.companyWebsite,
+    mailingAddress: data.companyAddress,
+    mailingCity: data.companyCity,
+    mailingCountry: data.companyCountry,
+    preferences,
+    leadId: leadId,
+    createdBy: data.createdBy
+  };
 
+  const response = await Promise.all([
+    fetchData('/accounts/create', accountData),
+    fetchData('/contacts/create', contactData),
+  ]);
+  const newAccount = response[0];
+  const newContact = response[1];
+
+  await fetchResWithoutRedirect(newAccount);
+  await fetchResWithoutRedirect(newContact);
+  if(newAccount.status && newContact.status) {
+    const leadUpdate = await fetchData(`/leads/${leadId}/convert`, {leadStatus: 'converted'});
+    await fetchResponse(leadUpdate, '/main/leads');
+  };
+  
+}; 
+
+const deleteLead = async (event, leadId) =>{
+  event.preventDefault();
+  const result = await Swal.fire({
+    title: `Delete Lead?`,
+    text: "You won't be able to revert this!",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Yes, delete this Lead!',
+  });
+  if(result.value){
+    const data = await fetch(`/api/v1/leads/${leadId}/delete`);
+    const response = await data.json();
+    await fetchResponse(response, `/main/leads`);
   };
 };

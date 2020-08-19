@@ -1,3 +1,5 @@
+"use strict"
+
 
 const fetchData = async () =>{
   try {
@@ -12,6 +14,55 @@ const fetchData = async () =>{
       'error'
     )
   }
+};
+
+const deleteLead = () => {
+  const deleteBtn = document.querySelectorAll('.deleteBtn');
+  deleteBtn.forEach(btn => {
+      console.log(btn);
+      btn.addEventListener('click', async (e) => {
+          let leadId = btn.getAttribute('id')
+          let email = btn.dataset.app;
+          const result = await Swal.fire({
+              title: `Delete "${email}" ?`,
+              text: "You won't be able to revert this!",
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#d33',
+              cancelButtonColor: '#3085d6',
+              confirmButtonText: 'Yes, delete it!',
+          });
+          if (result.value) {
+              try {
+                  const response = await fetch(`/api/v1/leads/${leadId}/delete`);
+                  const data = await response.json();
+                  if (data.status) {
+                      await Swal.fire(
+                      '',
+                      `${data.message}`,
+                      'success'
+                      );
+                      location.reload();
+                  } else {
+                      await Swal.fire(
+                          '',
+                          `${data.message}`,
+                          'success'
+                      );
+                      location.reload();
+                  }
+              } catch (error) {
+                  console.log(error)
+                  swal.fire({
+                      "title": "",
+                      "text": error.data.message,
+                      "type": "error",
+                      "confirmButtonClass": "btn btn-secondary m-btn m-btn--wide"
+                  })
+              };
+          };
+      });
+  });
 };
 
 const insertTableData = (data) => {
@@ -60,7 +111,7 @@ const insertTableData = (data) => {
         field: 'leadStatus',
         title: 'Lead Status',
         template: function (row) {
-          const color = (row.leadStatus == 'new') ? 'steel' : 'success';
+          const color = (row.leadStatus == 'new') ? 'info' : 'success';
           return `<span class="badge badge-${color}">${row.leadStatus}</span>`;
         }
       },
@@ -70,14 +121,23 @@ const insertTableData = (data) => {
 		    sortable: false,
 		    width: 150,
         template: function (row) {
+          if(row.leadStatus == 'new'){
           return `
+            <a href="/main/leads/${row.id}" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View Lead Details">
+              <i class="la la-eye"></i>
+            </a>
             <a href="/main/leads/${row.id}/update" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit Lead Details">
               <i class="la la-edit"></i>
             </a>
-            <a href="/main/leads/${row.id}/delete" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete Lead">
-              <i class="la la-trash"></i>
-            </a>
+            
           `;
+          } else {
+            return `
+              <a href="/main/leads/${row.id}" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View Lead Details">
+                <i class="la la-eye"></i>
+              </a>
+              `
+          }
         },
       }
     ]
@@ -106,4 +166,5 @@ const insertListData = async () => {
 
 jQuery(document).ready(function() {
 	insertListData();
+  setTimeout(deleteLead, 2000);
 });

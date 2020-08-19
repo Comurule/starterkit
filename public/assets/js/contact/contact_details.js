@@ -29,37 +29,6 @@ const fetchResponse = async (data, url) =>{
     )
   };
 };
-//Update Lead Handler
-const updateLead= async (event, leadId) => {
-  event.preventDefault();
-  const form = event.target;
-    try {
-      const bodyData = {
-        firstName: form.firstName.value, 
-        lastName: form.lastName.value, 
-        email: form.email.value,
-        username: form.username.value,
-        password: form.password.value,
-        address: form.address.value,
-        city: form.city.value,
-        country: form.country.value,
-        leadCurrency: form.leadCurrency.value,
-        leadLanguage: form.leadLanguage.value,
-        companyName: form.companyName.value,
-        companyWebsite: form.companyWebsite.value,
-        companyEmail: form.companyEmail.value,
-        companyAddress: form.companyAddress.value,
-        companyCity: form.companyCity.value,
-        companyCountry: form.companyCountry.value,
-        preferences: $('#kt_select2_3').val()
-      };
-      const data = await fetchData(`/leads/${leadId}/update`, bodyData);
-      //Response Notification
-      await fetchResponse(data, `/main/leads/${leadId}`);      
-    } catch (error) {
-      console.log(error);
-    };
-};
 
 const updateIsActive = async (event, leadPreferenceId, leadId) => {
   event.preventDefault();

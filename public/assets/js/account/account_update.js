@@ -18,9 +18,6 @@ var KTFormControls = function () {
                     required: true,
                     digits: false
                 },
-                username: {
-                    required: true,
-                },
                 preferences: {
                     required: true,
                 },
@@ -81,7 +78,7 @@ const fetchResponse = async (data, url) =>{
   };
 };
 //Update Lead Handler
-const updateLead= async (event, leadId) => {
+const updateAccount= async (event, accountId) => {
   event.preventDefault();
   const form = event.target;
     try {
@@ -90,23 +87,22 @@ const updateLead= async (event, leadId) => {
         lastName: form.lastName.value, 
         email: form.email.value,
         username: form.username.value,
-        password: form.password.value,
         address: form.address.value,
         city: form.city.value,
         country: form.country.value,
-        leadCurrency: form.leadCurrency.value,
-        leadLanguage: form.leadLanguage.value,
-        companyName: form.companyName.value,
-        companyWebsite: form.companyWebsite.value,
-        companyEmail: form.companyEmail.value,
-        companyAddress: form.companyAddress.value,
-        companyCity: form.companyCity.value,
-        companyCountry: form.companyCountry.value,
+        billingCurrency: form.billingCurrency.value,
+        billingLanguage: form.billingLanguage.value,
+        billingName: form.billingName.value,
+        billingWebsite: form.billingWebsite.value,
+        billingEmail: form.billingEmail.value,
+        billingAddress: form.billingAddress.value,
+        billingCity: form.billingCity.value,
+        billingCountry: form.billingCountry.value,
         preferences: $('#kt_select2_3').val()
       };
-      const data = await fetchData(`/leads/${leadId}/update`, bodyData);
+      const data = await fetchData(`/accounts/${accountId}/update`, bodyData);
       //Response Notification
-      await fetchResponse(data, `/main/leads/${leadId}`);      
+      await fetchResponse(data, `/main/accounts/${accountId}`);      
     } catch (error) {
       console.log(error);
     };

@@ -3,6 +3,7 @@
 
 var KTFormControls = function () {
     // Private functions
+ 
     var demo1 = function () {
         $( "#kt_form_1" ).validate({
             // define validation rules
@@ -35,80 +36,23 @@ var KTFormControls = function () {
             placeholder: "----Choose The Preferred Preferences----",
         });
 
-    };
+    }
+
     return {
         // public functions
         init: function() {
+
             demo1();  
         }
     };
 }();
 
 jQuery(document).ready(function() { 
-  showPreferenceOptions();   
+    showPreferenceOptions();  
     KTFormControls.init();
 });
-//Helpers
-const postFetchData = async (url, data) => {
-  const request = await fetch(`/api/v1${url}`, {
-    method: 'POST',
-    headers: {
-      "Content-type": "application/json",
-    },
-    body: JSON.stringify(data)
-  });
-  return await request.json();   
-};
-const fetchResponse = async (data, url) =>{
-  if (data.status) {
-    // show notification
-    await swal.fire(
-      'Awesome!',
-      data.message,
-      'success'
-    );
-    location.href = `${url}`;
-  } else {
-    // show notification
-    swal.fire(
-      'Failed!',
-      data.message,
-      'error'
-    )
-  };
-};
-//Update Lead Handler
-const updateContact= async (event, contactId) => {
-  event.preventDefault();
-  const form = event.target;
-    try {
-      const bodyData = {
-        firstName: form.firstName.value, 
-        lastName: form.lastName.value, 
-        email: form.email.value,
-        username: form.username.value,
-        address: form.address.value,
-        city: form.city.value,
-        country: form.country.value,
-        mailingCurrency: form.mailingCurrency.value,
-        mailingLanguage: form.mailingLanguage.value,
-        mailingName: form.mailingName.value,
-        mailingWebsite: form.mailingWebsite.value,
-        mailingEmail: form.mailingEmail.value,
-        mailingAddress: form.mailingAddress.value,
-        mailingCity: form.mailingCity.value,
-        mailingCountry: form.mailingCountry.value,
-        preferences: $('#kt_select2_3').val()
-      };
-      const data = await postFetchData(`/contacts/${contactId}/update`, bodyData);
-      //Response Notification
-      await fetchResponse(data, `/main/contacts/${contactId}`);      
-    } catch (error) {
-      console.log(error);
-    };
-};
 
-const getFetchData = async (url) =>{
+const fetchData = async (url) =>{
   try {
     const preferences = await fetch(`/api/v1${url}`);
     return await preferences.json();
@@ -130,7 +74,61 @@ const insertOptions = (data) => {
   return optionData
 };  
 const showPreferenceOptions = async () => {
-  const {data} = await getFetchData('/preferences'); 
+  const {data} = await fetchData('/preferences'); 
   const optionData = insertOptions(data);
   document.getElementById('kt_select2_3').innerHTML= optionData;
 };
+
+
+const submitHandler= async function (event) {
+  event.preventDefault();
+  const form = event.target;
+    try {
+      const request = await fetch(`/api/v1/accounts/create`, {
+        method: 'POST',
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName: form.firstName.value, 
+          lastName: form.lastName.value, 
+          email: form.email.value,
+          username: form.username.value,
+          address: form.address.value,
+          city: form.city.value,
+          country: form.country.value,
+          billingCurrency: form.billingCurrency.value,
+          billingLanguage: form.billingLanguage.value,
+          billingName: form.billingName.value,
+          billingWebsite: form.billingWebsite.value,
+          billingEmail: form.billingEmail.value,
+          billingAddress: form.billingAddress.value,
+          billingCity: form.billingCity.value,
+          billingCountry: form.billingCountry.value,
+          preferences: $('#kt_select2_3').val()
+        })
+      });
+      const data = await request.json();
+      // check if update was sucessful
+      if (data.status) {
+        // show notification
+        await swal.fire(
+          'Awesome!',
+          data.message,
+          'success'
+        )
+        location.href = `/main/accounts`;
+      } else {
+        // show notification
+        swal.fire(
+          'Failed!',
+          data.message,
+          'error'
+        )
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  
+    //form[0].submit() ./; // submit the form
+}

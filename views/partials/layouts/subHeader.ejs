@@ -25,23 +25,25 @@
         </div>
         <div class="kt-subheader__toolbar">
 			<div class="kt-subheader__wrapper">
-                <div class="">
-								&nbsp;
-								<a onclick="convertLead(<%= lead.id %>)" class="btn btn-light btn-bold btn-upper btn-font-sm">
-									<i class="la la-leaf"></i>
-									Convert Lead
-								</a>
-								&nbsp;
-								<a href="/main/leads/<%= lead.id %>/update" class="btn btn-brand btn-bold btn-upper btn-font-sm">
-									<i class="la la-edit"></i>
-									Edit Lead Details
-								</a>
-								&nbsp;
-								<a href="/main/leads/<%= lead.id %>/delete" class="btn btn-light btn-bold btn-upper btn-font-sm">
-									<i class="la la-trash"></i>
-									Delete Lead
-								</a>
-						</div>
+        <% if(lead.leadStatus== 'new') { %>
+        <div class="">
+          &nbsp;
+          <a onclick="convertLead(<%= lead.id %>)" class="btn btn-light btn-bold btn-upper btn-font-sm">
+            <i class="la la-leaf"></i>
+            Convert Lead
+          </a>
+          &nbsp;
+          <a href="/main/leads/<%= lead.id %>/update" class="btn btn-brand btn-bold btn-upper btn-font-sm">
+            <i class="la la-edit"></i>
+            Edit Lead Details
+          </a>
+          &nbsp;
+          <a onclick="deleteLead(event, <%=lead.id%>)" class="btn btn-light btn-bold btn-upper btn-font-sm">
+            <i class="la la-trash"></i>
+            Delete Lead
+          </a>
+        </div>
+        <% } else {} %>
 			</div>
 		</div>
     </div>

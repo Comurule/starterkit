@@ -15,7 +15,8 @@ const{
 } = require('../../utils/apiResponse');
 
 // Handle User create on POST.
-exports.createContact = async(req, res) => {    
+exports.createContact = async(req, res) => {
+
     try {
         const contactData = await validateInput(req, res);
         if(typeof contactData === 'string') return errorRes(res, contactData);
@@ -27,9 +28,9 @@ exports.createContact = async(req, res) => {
 
         const createdContact = await Contact.create({
             ...contactData,
-            modifiedBy: req.user? req.user.id: null,
-            departmentId: req.user.departmentId,
-            currentBusinessId: req.user.currentBusinessId,
+            modifiedBy: req.user.id,
+            departmentId: req.user.DepartmentId,
+            currentBusinessId: req.user.CurrentBusinessId,
         });
 
         //add the selected preferences
@@ -53,7 +54,7 @@ exports.createContact = async(req, res) => {
  
 exports.updateContact = async(req, res) => {
     try {
-        const ContactData = validateInput(req, res);
+        const contactData = validateInput(req, res);
         if(typeof contactData === 'string') return errorRes(res, contactData)
         //check for duplicate in the database
         const checkContact = await Contact.findOne({ where: { email: contactData.email }  });
@@ -63,7 +64,7 @@ exports.updateContact = async(req, res) => {
             
         await Contact.update( {
             ...contactData,
-            modifiedBy: req.user? req.user.id: null
+            modifiedBy: req.user.id
         }, { 
             where: { id: req.params.contactId } 
         });
@@ -117,13 +118,13 @@ exports.getAllContacts = async (req, res) => {
     try {
         const contacts = await Contact.findAll({
             where: {
-                departmentId: req.user.departmentId,
-                currentBusinessId: req.user.currentBusinessId,
+                departmentId: req.user.DepartmentId,
+                currentBusinessId: req.user.CurrentBusinessId,
             }
         });
         
         //Success Response
-        const data = await Contacts;
+        const data = await contacts;
         successResWithData( res, 'Contact List', data ) 
 
     } catch (error) {
@@ -139,7 +140,6 @@ const validateInput = (req, res) => {
     const lastName = req.body.lastName.trim();
     const email = req.body.email.trim();
     const username = (req.body.username != '')? req.body.username.trim() : '';
-    const password = (req.body.password != '')? req.body.password.trim() : null;
     const address = (req.body.address != '')? req.body.address.trim():'';
     const city = (req.body.city != '')? req.body.city.trim(): '';
     const country = (req.body.country != '')? req.body.country.trim(): '';
@@ -158,13 +158,6 @@ const validateInput = (req, res) => {
         !firstName || !lastName || !email || !username || username == '' || 
         firstName == '' || lastName == '' || email == '' 
     ) return 'Fill all required Fields';
-    
-
-    //validate the password
-    if(password != null) {
-        if(password.length < 8 ) 
-            return 'Password should not be less than 8 characters.';
-    }
 
     //validate mailingCurrency 
     if( mailingCurrency != '' && (!mailingCurrency.match(/^[A-Za-z]+$/) || mailingCurrency.trim().length != 3) )
@@ -180,7 +173,6 @@ const validateInput = (req, res) => {
         lastName, 
         email,
         username,
-        password,
         address,
         city,
         country,
@@ -192,7 +184,8 @@ const validateInput = (req, res) => {
         mailingAddress,
         mailingCity,
         mailingCountry,
-        createdBy: req.body.createdBy != '' ? req.body.createdBy : null,
+        leadId: req.body.leadId,
+        createdBy: req.body.createdBy,
     }
 };
 

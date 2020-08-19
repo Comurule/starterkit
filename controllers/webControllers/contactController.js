@@ -1,9 +1,10 @@
-
-const { Lead, PreferenceCenter, CurrentBusiness  } = require('../../models');
-const axios = require('axios');
-
 const { renderPage, axiosFetch } = require("../../utils/webResponse");
 const { errorLog } = require('../../utils/apiResponse');
+
+
+exports.getCreateContact = async (req, res) => {
+    renderPage(req, res, 'Create Contact', 'GET CONTACT CREATE');
+};
  
 exports.getUpdateContact = async (req, res) => {
     const response = await axiosFetch(req, 'GET', `/contacts/${req.params.contactId}`);

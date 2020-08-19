@@ -1,184 +1,174 @@
 
 <!-- begin:: Content -->
-<div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
-	
-	<!--begin::Row-->
-	<div class="row"> 
-		<div class="col-12">
-			<div class="col-md-12 col-xl-12">
-				<!--begin::Portlet-->
-				<div class="kt-portlet">
-					<div class="kt-portlet__body">
-						<form class="kt-form kt-form--label-right" id="kt_form_1" onsubmit="updateLead(event, <%= lead.id %>)">
-							<div class="form-group form-group-last kt-hide">
-								<div class="alert alert-danger" role="alert" id="kt_form_1_msg">
-									<div class="alert-icon"><i class="flaticon-warning"></i></div>
-									<div class="alert-text">
-										Oh snap! Change a few things up and try submitting again.
-									</div>
-									<div class="alert-close">
-										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-											<span aria-hidden="true"><i class="la la-close"></i></span>
+<div class="kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+	<!--begin::Portlet-->
+	<div class="kt-portlet">
+		<div class="kt-portlet__body">
+			<form class="kt-form kt-form--label-right" id="kt_form_1" onsubmit="updateLead(event, <%= lead.id %>)">
+				<div class="form-group form-group-last kt-hide">
+					<div class="alert alert-danger" role="alert" id="kt_form_1_msg">
+						<div class="alert-icon"><i class="flaticon-warning"></i></div>
+						<div class="alert-text">
+							Oh snap! Change a few things up and try submitting again.
+						</div>
+						<div class="alert-close">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true"><i class="la la-close"></i></span>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="kt-section kt-section--first">
+					<div class="form-group row">
+						<div>
+							<h3 class="kt-portlet__head-title"><spam><i class="flaticon-avatar"></i></spam>&nbsp;&nbsp;Lead BioData</h3>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="form-group col-md-6 col-lg-4">
+							<label>First Name:</label>
+							<input type="text" class="form-control" name="firstName" value="<%= (lead.firstName != '')? lead.firstName : ''%>" placeholder="Enter first name">
+						</div>
+						<div class="form-group col-md-6 col-lg-4">
+							<label>Last Name:</label>
+							<input type="text" class="form-control" name="lastName"  value="<%= (lead.lastName != '')? lead.lastName : ''%>" placeholder="Enter last name">
+						</div>
+						<div class="form-group col-md-6 col-lg-4">
+							<label>Username:</label>
+							<input type="text" class="form-control" name="username" placeholder="Enter a preferred name" value="<%= (lead.username != '')? lead.username : ''%>">
+						</div>
+						<div class="form-group col-md-6 col-lg-4">
+							<label>Email:</label>
+							<input type="text" class="form-control" name="email" value="<%= (lead.email != '')? lead.email : ''%>" placeholder="Enter Lead's Email">
+						</div>
+						<div class="form-group col-md-6 col-lg-4">
+							<label>Password:</label>
+							<input type="password" class="form-control" name="password" value="" placeholder="********">
+						</div>
+						<div class="form-group col-md-6 col-lg-4">
+							<label>Lead's Preferred Language:</label>
+							<input type="text" class="form-control" name="leadLanguage" value="<%= (lead.leadLanguage != '')? lead.leadLanguage : ''%>" placeholder="Enter a preferred language">
+						</div>
+						<div class="form-group col-md-9 col-lg-8">
+							<label>Lead Address:</label>
+							<input type="text" class="form-control" name="address" value="<%= (lead.address != '')? lead.address : ''%>" placeholder="Enter Lead's Contact Address">
+						</div>
+						<div class="form-group col-md-4 col-lg-2">
+							<label>City/State:</label>
+							<input type="text" class="form-control" name="city" value="<%= (lead.city != '')? lead.city : ''%>" placeholder="Enter Lead's City">
+						</div>
+						<div class="form-group col-md-4 col-lg-2">
+							<label>Country:</label>
+							<input type="text" class="form-control" name="country" value="<%= (lead.country != '')? lead.country : ''%>" placeholder="Enter Lead's Country">
+						</div>
+					</div>
+				</div>
+					<div>
+						<hr>
+					</div>
+				<div class="kt-container--fluid">
+					<div class="form-group row">
+						<div>
+							<h3 class="kt-portlet__head-title">
+								<spam><i class="flaticon-settings-1"></i></spam>&nbsp;&nbsp;
+								Lead Preferences
+							</h3>
+						</div>
+					</div>
+					<div class="form-group row">
+			
+						<div class="form-group col-xl-4 col-lg-4 col-sm-12">
+							<label class="">Preferred Currency</label>
+							<div class="">
+							<!-- <select class="form-control kt-select2" id="kt_select2_4" name="leadCurrency">
+								<option></option>
+								<optgroup label="Alaskan/Hawaiian Time Zone">
+									<option value="AK">Alaska</option>
+									<option value="HI">Hawaii</option>
+								</optgroup>
+							</select> -->
+							<input class="form-control" type="text" name="leadCurrency" value="<%= lead.leadCurrency %>">
+							</div>
+						</div>
+						<div class="form-group col-xl-6 col-lg-6 col-sm-12">
+							<label class="">Preference Centers</label>
+							<div>
+								<select class="form-control kt-select2" id="kt_select2_3" name="preferences" multiple="multiple">
+										<option value="">-------Choose-------</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-lg-9 col-md-9 col-sm-12">
+							<a href="" class="btn btn-brand kt-btn kt-btn--pill" data-toggle="modal" data-target="#company_modal">Click Here To Fill In Lead's Company Details</a>
+						</div>
+						
+						<!--begin::Modal-->
+						<div class="modal fade" id="company_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-lg" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">Company Details</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true" class="la la-remove"></span>
 										</button>
 									</div>
-								</div>
-							</div>
-							<div class="kt-section kt-section--first">
-								<div class="form-group row">
-									<div>
-										<h3 class="kt-portlet__head-title"><spam><i class="flaticon-avatar"></i></spam>&nbsp;&nbsp;Lead BioData</h3>
-									</div>
-								</div>
-								<div class="form-group row">
-									<div class="form-group col-md-6 col-lg-4">
-										<label>First Name:</label>
-										<input type="text" class="form-control" name="firstName" value="<%= (lead.firstName != '')? lead.firstName : ''%>" placeholder="Enter first name">
-									</div>
-									<div class="form-group col-md-6 col-lg-4">
-										<label>Last Name:</label>
-										<input type="text" class="form-control" name="lastName"  value="<%= (lead.lastName != '')? lead.lastName : ''%>" placeholder="Enter last name">
-									</div>
-									<div class="form-group col-md-6 col-lg-4">
-										<label>Username:</label>
-										<input type="text" class="form-control" name="username" placeholder="Enter a preferred name" value="<%= (lead.username != '')? lead.username : ''%>">
-									</div>
-									<div class="form-group col-md-6 col-lg-4">
-										<label>Email:</label>
-										<input type="text" class="form-control" name="email" value="<%= (lead.email != '')? lead.email : ''%>" placeholder="Enter Lead's Email">
-									</div>
-									<div class="form-group col-md-6 col-lg-4">
-										<label>Password:</label>
-										<input type="password" class="form-control" name="password" value="" placeholder="********">
-									</div>
-									<div class="form-group col-md-6 col-lg-4">
-										<label>Lead's Preferred Language:</label>
-										<input type="text" class="form-control" name="leadLanguage" value="<%= (lead.leadLanguage != '')? lead.leadLanguage : ''%>" placeholder="Enter a preferred language">
-									</div>
-									<div class="form-group col-md-9 col-lg-8">
-										<label>Lead Address:</label>
-										<input type="text" class="form-control" name="address" value="<%= (lead.address != '')? lead.address : ''%>" placeholder="Enter Lead's Contact Address">
-									</div>
-									<div class="form-group col-md-4 col-lg-2">
-										<label>City/State:</label>
-										<input type="text" class="form-control" name="city" value="<%= (lead.city != '')? lead.city : ''%>" placeholder="Enter Lead's City">
-									</div>
-									<div class="form-group col-md-4 col-lg-2">
-										<label>Country:</label>
-										<input type="text" class="form-control" name="country" value="<%= (lead.country != '')? lead.country : ''%>" placeholder="Enter Lead's Country">
-									</div>
-								</div>
-							</div>
-								<div>
-									<hr>
-								</div>
-							<div class="kt-container--fluid">
-								<div class="form-group row">
-									<div>
-										<h3 class="kt-portlet__head-title">
-											<spam><i class="flaticon-settings-1"></i></spam>&nbsp;&nbsp;
-											Lead Preferences
-										</h3>
-									</div>
-								</div>
-								<div class="form-group row">
-						
-									<div class="form-group col-xl-4 col-lg-4 col-sm-12">
-										<label class="">Preferred Currency</label>
-										<div class="">
-										<!-- <select class="form-control kt-select2" id="kt_select2_4" name="leadCurrency">
-											<option></option>
-											<optgroup label="Alaskan/Hawaiian Time Zone">
-												<option value="AK">Alaska</option>
-												<option value="HI">Hawaii</option>
-											</optgroup>
-										</select> -->
-										<input class="form-control" type="text" name="leadCurrency" value="<%= lead.leadCurrency %>">
-										</div>
-									</div>
-									<div class="form-group col-xl-6 col-lg-6 col-sm-12">
-										<label class="">Preference Centers</label>
-										<div>
-											<select class="form-control kt-select2" id="kt_select2_3" name="preferences" multiple="multiple">
-													<option value="">-------Choose-------</option>
-											</select>
-										</div>
-									</div>
-									<div class="col-lg-9 col-md-9 col-sm-12">
-										<a href="" class="btn btn-brand kt-btn kt-btn--pill" data-toggle="modal" data-target="#company_modal">Click Here To Fill In Lead's Company Details</a>
-									</div>
-									
-									<!--begin::Modal-->
-									<div class="modal fade" id="company_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-										<div class="modal-dialog modal-lg" role="document">
-											<div class="modal-content">
-												<div class="modal-header">
-													<h5 class="modal-title" id="exampleModalLabel">Company Details</h5>
-													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-														<span aria-hidden="true" class="la la-remove"></span>
-													</button>
+									<div class="kt-portlet__body">
+										<div class="row">
+											<div class="form-group col-12">
+												<label>Company Name:</label>
+												<input type="text" class="form-control" name="companyName" value="<%= (lead.companyName != '')? lead.companyName : ''%>" placeholder="MicroSolutions.inc">
+											</div>
+											<div class="form-group col-8">
+												<label>Company Address:</label>
+												<input type="text" class="form-control" name="companyAddress" value="<%= (lead.companyAddress != '')? lead.companyAddress : ''%>" placeholder="Enter company address">
+											</div>
+											<div class="form-group col-2">
+												<label>City/State</label>
+												<div class="input-group">														
+													<input type="text" class="form-control" name="companyCity" value="<%= (lead.companyCity != '')? lead.companyCity : ''%>" placeholder="">
 												</div>
-												<div class="kt-portlet__body">
-													<div class="row">
-														<div class="form-group col-12">
-															<label>Company Name:</label>
-															<input type="text" class="form-control" name="companyName" value="<%= (lead.companyName != '')? lead.companyName : ''%>" placeholder="MicroSolutions.inc">
-														</div>
-														<div class="form-group col-8">
-															<label>Company Address:</label>
-															<input type="text" class="form-control" name="companyAddress" value="<%= (lead.companyAddress != '')? lead.companyAddress : ''%>" placeholder="Enter company address">
-														</div>
-														<div class="form-group col-2">
-															<label>City/State</label>
-															<div class="input-group">														
-																<input type="text" class="form-control" name="companyCity" value="<%= (lead.companyCity != '')? lead.companyCity : ''%>" placeholder="">
-															</div>
-														</div>
-														<div class="form-group col-2">
-															<label>Country</label>
-															<div class="input-group">														
-																<input type="text" class="form-control" name="companyCountry" value="<%= (lead.companyCountry != '')? lead.companyCountry : ''%>" placeholder="">
-															</div>
-														</div>
-														<div class="form-group col-6">
-															<label>Email Address:</label>
-															<input type="text" class="form-control" name="companyEmail" value="<%= (lead.companyEmail != '')? lead.companyEmail : ''%>" placeholder="admin@microsolutions.com">
-														</div>
-														<div class="form-group col-6">
-															<label>Company Website</label>
-															<div class="input-group">														
-																<input type="text" class="form-control" name="companyWebsite" value="<%= (lead.companyWebsite != '')? lead.companyWebsite : ''%>" placeholder="www.microsolutions.com">
-															</div>
-														</div>
-														<div class="form-group">
-															<div class="col-lg-9 col-md-9 col-sm-12">
-																<a href="" class="btn btn-brand kt-btn kt-btn--pill" data-toggle="modal" data-target="#company_modal">Continue</a>
-															</div>
-														</div>
-													</div>
+											</div>
+											<div class="form-group col-2">
+												<label>Country</label>
+												<div class="input-group">														
+													<input type="text" class="form-control" name="companyCountry" value="<%= (lead.companyCountry != '')? lead.companyCountry : ''%>" placeholder="">
+												</div>
+											</div>
+											<div class="form-group col-6">
+												<label>Email Address:</label>
+												<input type="text" class="form-control" name="companyEmail" value="<%= (lead.companyEmail != '')? lead.companyEmail : ''%>" placeholder="admin@microsolutions.com">
+											</div>
+											<div class="form-group col-6">
+												<label>Company Website</label>
+												<div class="input-group">														
+													<input type="text" class="form-control" name="companyWebsite" value="<%= (lead.companyWebsite != '')? lead.companyWebsite : ''%>" placeholder="www.microsolutions.com">
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-lg-9 col-md-9 col-sm-12">
+													<a href="" class="btn btn-brand kt-btn kt-btn--pill" data-toggle="modal" data-target="#company_modal">Continue</a>
 												</div>
 											</div>
 										</div>
 									</div>
-									<!--end::Modal-->
-								</div>
-							</div>	
-							
-							<div class="kt-portlet__foot">
-								<div class="form-group row">
-									<div class="kt-form__actions">
-										<button type="submit" class="btn btn-brand">Submit</button>
-										<button type="reset" class="btn btn-secondary">Cancel</button>
-									</div>
 								</div>
 							</div>
-						</form>
+						</div>
+						<!--end::Modal-->
+					</div>
+				</div>	
+				<div class="kt-portlet__foot">
+					<div class="kt-form__actions kt-form__actions--right">
+						<div class="col kt-align-right">
+							<button type="submit" class="btn btn-brand">Submit</button>
+							<button type="reset" class="btn btn-secondary">Cancel</button>
+						</div>
 					</div>
 				</div>
-				<!--end::Portlet-->
-			</div>
+			</form>
 		</div>
 	</div>
-	<!--end::Row-->
+	<!--end::Portlet-->
 </div>
 
 <!-- end::Scrolltop -->

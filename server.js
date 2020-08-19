@@ -109,14 +109,7 @@ app.get('/autoLogin',
         res.redirect('/user');
     });
     
-    
-// authentication
-// app.post('/login',
-//     passport.authenticate('local', { 
-//         successRedirect: '/user',
-//         failureRedirect: '/login'
-//     })
-// );
+
 app.post('/login',
     passport.authenticate('local', {
         failureRedirect: '/login',
@@ -179,7 +172,11 @@ app.use(function(err, req, res, next) {
 
     // render the error page
     res.status(err.status || 500);
-    res.render('pages/error');
+    var viewData = {
+        layout: 'layouts/detail',
+        title: 'Error',
+    }
+    res.render('pages/error', viewData);
 });
 
 module.exports = app;

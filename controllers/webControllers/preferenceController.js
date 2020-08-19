@@ -126,26 +126,3 @@ exports.getAllPreference = async (req, res) => {
         errorLog( res, 'Error: Something went wrong.' )
     }
 };
-
-const validateInputs = async (req, res) => {
-    const { name, tier, parentPC, pcCode, displayType } = req.body;
-    
-    //To check against empty fields
-    if(!name || !tier || !pcCode || !displayType ||
-        name == '' || tier == '' || pcCode == '' || displayType == ''    
-    ) 
-        errorRes( res, 'Ensure all fields are filled' )
-
-        // check if the parentPC is valid
-        if(parentPC && parentPC != '') {
-            const parentPreference = await PreferenceCenter.findByPk(parentPC)
-            if(!parentPreference )errorRes( res, 'Invalid Parent Preference Center Input.')
-        }
-
-        return { 
-            name,
-            tier, 
-            pcCode, 
-            displayType, 
-            parentPC: parentPC? parentPC : null };
-};

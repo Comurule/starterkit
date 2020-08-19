@@ -15,7 +15,7 @@ const{
 } = require('../../utils/apiResponse');
 
 // Handle User create on POST.
-exports.createAccount = async(req, res) => {    
+exports.createAccount = async(req, res) => { 
     try {
         const accountData = await validateInput(req, res);
         if(typeof accountData === 'string') return errorRes(res, accountData);
@@ -27,9 +27,9 @@ exports.createAccount = async(req, res) => {
 
         const createdAccount = await Account.create({
             ...accountData,
-            modifiedBy: req.user? req.user.id: null,
-            departmentId: req.user.departmentId,
-            currentBusinessId: req.user.currentBusinessId,
+            modifiedBy: req.user.id,
+            departmentId: req.user.DepartmentId,
+            currentBusinessId: req.user.CurrentBusinessId,
         });
 
         //add the selected preferences
@@ -63,7 +63,7 @@ exports.updateAccount = async(req, res) => {
             
         await Account.update( {
             ...accountData,
-            modifiedBy: req.user? req.user.id: null
+            modifiedBy: req.user.id
         }, { 
             where: { id: req.params.accountId } 
         });
@@ -117,8 +117,8 @@ exports.getAllAccounts = async (req, res) => {
     try {
         const accounts = await Account.findAll({
             where: {
-                departmentId: req.user.departmentId,
-                currentBusinessId: req.user.currentBusinessId,
+                departmentId: req.user.DepartmentId,
+                currentBusinessId: req.user.CurrentBusinessId,
             }
         });
         
@@ -133,18 +133,18 @@ exports.getAllAccounts = async (req, res) => {
     
 };
 
-// LEAD HELPERS
+// ACCOUNT HELPERS
 const validateInput = (req, res) => {
+
     const firstName = req.body.firstName.trim();
     const lastName = req.body.lastName.trim();
     const email = req.body.email.trim();
     const username = (req.body.username != '')? req.body.username.trim() : '';
-    const password = (req.body.password != '')? req.body.password.trim() : null;
     const address = (req.body.address != '')? req.body.address.trim():'';
     const city = (req.body.city != '')? req.body.city.trim(): '';
     const country = (req.body.country != '')? req.body.country.trim(): '';
-    const billingCurrency = (req.body.billingCurrency != '')? req.body.billingCurrency.trim().toUpperCase(): '';
-    const billingLanguage = (req.body.billingLanguage != '')? req.body.billingLanguage.trim(): '';
+    const billingCurrency = (req.body.billingCurrency != '')? req.body.billingCurrency.trim().toUpperCase(): undefined;
+    const billingLanguage = (req.body.billingLanguage != '')? req.body.billingLanguage.trim(): undefined;
     const billingName = (req.body.billingName != '')? req.body.billingName.trim(): '';
     const billingEmail = (req.body.billingEmail != '')? req.body.billingEmail.trim(): '';
     const billingWebsite = (req.body.billingWebsite != '')? req.body.billingWebsite.trim(): '';
@@ -158,16 +158,9 @@ const validateInput = (req, res) => {
         !firstName || !lastName || !email || !username || username == '' || 
         firstName == '' || lastName == '' || email == '' 
     ) return 'Fill all required Fields';
-    
-
-    //validate the password
-    if(password != null) {
-        if(password.length < 8 ) 
-            return 'Password should not be less than 8 characters.';
-    }
 
     //validate billingCurrency 
-    if( billingCurrency != '' && (!billingCurrency.match(/^[A-Za-z]+$/) || billingCurrency.trim().length != 3) )
+    if( billingCurrency && (!billingCurrency.match(/^[A-Za-z]+$/) || billingCurrency.trim().length != 3) )
         return 'Currency should have 3 CAPITAL letters only.';
 
     //validate billingWebsite
@@ -180,11 +173,10 @@ const validateInput = (req, res) => {
         lastName, 
         email,
         username,
-        password,
         address,
         city,
         country,
-        billingCurrency: billingCurrency != '' ? billingCurrency : null,
+        billingCurrency,
         billingLanguage,
         billingName,
         billingEmail,
@@ -193,7 +185,7 @@ const validateInput = (req, res) => {
         billingCity,
         billingCountry,
         leadId: req.body.leadId,
-        createdBy: req.body.createdBy != '' ? req.body.createdBy : null,
+        createdBy: req.body.createdBy
     }
 };
 

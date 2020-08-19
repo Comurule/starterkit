@@ -25,7 +25,10 @@
 						<div class="kt-section kt-section--first">
 							<div class="form-group row">
 								<div>
-									<h3 class="kt-portlet__head-title"><spam><i class="flaticon-avatar"></i></spam>&nbsp;&nbsp;Lead BioData</h3>
+									<h3 class="kt-portlet__head-title">
+										<spam><i class="flaticon-avatar"></i></spam>
+										&nbsp;&nbsp;Account BioData
+									</h3>
 								</div>
 							</div>
 							<div class="form-group row">
@@ -46,19 +49,15 @@
 									<input type="text" class="form-control" name="email" value="" placeholder="Enter Lead's Email">
 								</div>
 								<div class="form-group col-md-6 col-lg-4">
-									<label>Password:</label>
-									<input type="password" class="form-control" name="password" value="" placeholder="********">
-								</div>
-								<div class="form-group col-md-6 col-lg-4">
 									<label>Lead's Preferred Language:</label>
-									<input type="text" class="form-control" name="leadLanguage" value="" placeholder="Enter a preferred language">
+									<input type="text" class="form-control" name="billingLanguage" value="" placeholder="Enter a preferred language">
 								</div>
 								<div class="form-group col-md-9 col-lg-8">
 									<label>Lead Address:</label>
 									<input type="text" class="form-control" name="address" value="" placeholder="Enter Lead's Contact Address">
 								</div>
 								<div class="form-group col-md-4 col-lg-2">
-									<label>City/State:</label>
+									<label>State:</label>
 									<input type="text" class="form-control" name="city" value="" placeholder="Enter Lead's City">
 								</div>
 								<div class="form-group col-md-4 col-lg-2">
@@ -75,14 +74,14 @@
 								<div>
 									<h3 class="kt-portlet__head-title">
 										<spam><i class="flaticon-settings-1"></i></spam>&nbsp;&nbsp;
-										Lead Preferences
+										Account Preferences
 									</h3>
 								</div>
 							</div>
 							<div class="form-group row">
 								<div class="form-group col-xl-4 col-lg-4 col-sm-12">
 									<label class="">Preferred Currency:</label>
-									<input type="text" class="form-control" name="leadCurrency" value="" placeholder="Enter Preferred Currency">
+									<input type="text" class="form-control" name="billingCurrency" value="" placeholder="Enter Preferred Currency">
 								</div>
 								<div class="form-group col-xl-6 col-lg-6 col-sm-12">
 									<label class="">Preference Centers:</label>
@@ -112,32 +111,32 @@
 												<div class="row">
 													<div class="form-group col-12">
 														<label>Company Name:</label>
-														<input type="text" class="form-control" name="companyName" value="" placeholder="MicroSolutions.inc">
+														<input type="text" class="form-control" name="billingName" value="" placeholder="MicroSolutions.inc">
 													</div>
 													<div class="form-group col-8">
 														<label>Company Address:</label>
-														<input type="text" class="form-control" name="companyAddress" value="" placeholder="Enter company address">
+														<input type="text" class="form-control" name="billingAddress" value="" placeholder="Enter company address">
 													</div>
 													<div class="form-group col-2">
-														<label>City/State</label>
+														<label>State</label>
 														<div class="input-group">														
-															<input type="text" class="form-control" name="companyCity" value="" placeholder="">
+															<input type="text" class="form-control" name="billingCity" value="" placeholder="">
 														</div>
 													</div>
 													<div class="form-group col-2">
 														<label>Country</label>
 														<div class="input-group">														
-															<input type="text" class="form-control" name="companyCountry" value="" placeholder="">
+															<input type="text" class="form-control" name="billingCountry" value="" placeholder="">
 														</div>
 													</div>
 													<div class="form-group col-6">
 														<label>Email Address:</label>
-														<input type="text" class="form-control" name="companyEmail" value="" placeholder="admin@microsolutions.com">
+														<input type="text" class="form-control" name="billingEmail" value="" placeholder="admin@microsolutions.com">
 													</div>
 													<div class="form-group col-6">
 														<label>Company Website</label>
 														<div class="input-group">														
-															<input type="text" class="form-control" name="companyWebsite" value="" placeholder="www.microsolutions.com">
+															<input type="text" class="form-control" name="billingWebsite" value="" placeholder="www.microsolutions.com">
 														</div>
 													</div>
 													<div class="form-group">
@@ -185,6 +184,6 @@
 <!--begin::Page Scripts(used by this page) -->
 <script src="assets/js/pages/dashboard.js" type="text/javascript"></script>
 <!--for Form Validattion -->
-<script src="assets/js/lead/lead_create.js" type="text/javascript"></script>
+<script src="assets/js/account/account_create.js" type="text/javascript"></script>
 <!-- for Form select Options -->
 <!-- end:: Content -->

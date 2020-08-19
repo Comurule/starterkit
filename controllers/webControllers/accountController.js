@@ -5,8 +5,13 @@ const axios = require('axios');
 const { renderPage, axiosFetch } = require("../../utils/webResponse");
 const { errorLog } = require('../../utils/apiResponse');
  
+
+exports.getCreateAccount = async (req, res) => {
+    renderPage(req, res, 'Create Account', 'GET ACCOUNT CREATE');
+};
+
 exports.getUpdateAccount = async (req, res) => {
-    const response = await axiosFetch(req, 'GET', `/account/${req.params.accountId}`);
+    const response = await axiosFetch(req, 'GET', `/accounts/${req.params.accountId}`);
     const account = await response.data;
     renderPage(req, res, 'Update Account', 'GET ACCOUNT UPDATE', {account})
 };

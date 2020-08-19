@@ -13,16 +13,21 @@ const fetchData = async (url) =>{
       )
     }
 };
-//Preferences List Event handlers
 
-// jQuery(document).load(function() {
-//     if(error && error != '') {
-//         swal.fire('Failed!', error.message, 'error')
-//     };
-//     if(success & success !='') {
-//         swal.fire('Success', success.message, 'success' )
-//     };
-// });
+let ParentPC =[];
+const preferenceData = async ()=>{
+    const { data } = await fetchData('/preferences');
+        data.forEach(pc=>{
+            if(pc.parentPC != null){
+                ParentPC = data.filter(preference=> pc.parentPC === preference.id);
+            }else{
+                ParentPC =[];
+            }
+            pc.ParentPC = ParentPC.length != 0 ? ParentPC[0].name : '';
+        });
+        
+        return data;
+};
 
 //Preference List Event Handlers
 const insertTableData = (data) => {
@@ -30,21 +35,21 @@ const insertTableData = (data) => {
 var datatable = $('.kt_datatable').KTDatatable({
     // datasource definition
     data: {
-    type: 'local',
-    source: data,
-    pageSize: 10,
+        type: 'local',
+        source: data,
+        pageSize: 10,
     },
     // layout definition
     layout: {
-    scroll: false, // enable/disable datatable scroll both horizontal and vertical when needed.
-    height: 700, // datatable's body's fixed height
-    footer: false // display/hide footer
+        scroll: false,
+        height: 700, 
+        footer: false 
     },
     // column sorting
     sortable: true,
     pagination: true,
     search: {
-    input: $('#generalSearch')
+        input: $('#generalSearch')
     },
     // columns definition
     columns: [
@@ -83,11 +88,15 @@ var datatable = $('.kt_datatable').KTDatatable({
         width: 100,
         template: function (row) {
         return `
-            <a id="updatePreference" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit Preference">
-                <i class="la la-edit"></i>
+            <a class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="modal" data-target="#preference_modal" title="Edit Preference">
+                <span id="${row.id}" class="updateBtn">
+                    <i class="la la-edit"></i>
+                </span>
             </a>
-            <a href="/main/preferences/${row.id}/delete" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete Preference" href="/main/preferences/${row.id}/delete">
-                <i class="la la-trash"></i>
+            <a class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete Preference">
+                <span id="${row.id}" class="deleteBtn" data-app="${row.name}">
+                    <i class="la la-trash"></i>
+                </span>
             </a>
             `;
         },
@@ -105,24 +114,9 @@ $('#kt_form_type').on('change', function () {
 
 $('#kt_form_status,#kt_form_type').selectpicker();
 };
-let ParentPC =[];
-const response = async ()=>{
-    const { data } = await fetchData('/preferences');
-        data.forEach(pc=>{
-            if(pc.parentPC != null){
-                ParentPC = data.filter(preference=> pc.parentPC === preference.id);
-            }else{
-                ParentPC =[];
-            }
-            pc.ParentPC = ParentPC.length != 0 ? ParentPC[0].name : '';
-        });
-        
-        return data;
-}
 const insertListData = async () => {
     try {
-        const data = await response();
-        console.log(data);
+        const data = await preferenceData();
         insertTableData(data)
 
     }catch(err) {
@@ -130,7 +124,10 @@ const insertListData = async () => {
 }
 };
 jQuery(document).ready(function() {
-    insertListData();
+    insertListData();   
+    KTFormControls.init();
+    setTimeout(deletePreference, 2000);
+    setTimeout(populateUpdateModal, 2000);
 });
 
 //Create Preference Event Handlers
@@ -186,9 +183,6 @@ const KTFormControls = function () {
     };
 }();
 
-jQuery(document).ready(function() {    
-    KTFormControls.init();
-});
 const showCreatePreferenceModal = async () => {
     const {data} = await fetchData('/preferences'); 
     const optionData = insertOptions(data);
@@ -237,3 +231,117 @@ const createPreferenceHandler = async (event) => {
     console.log(error);
     }
 };
+//Delete Preference Event handlers
+const deletePreference = () => {
+    const deleteBtn = document.querySelectorAll('.deleteBtn');
+    deleteBtn.forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            let preferenceId = btn.getAttribute('id')
+            let preferenceName = btn.dataset.app;
+            const result = await Swal.fire({
+                title: `Delete "${preferenceName}" ?`,
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!',
+            });
+            if (result.value) {
+                try {
+                    const response = await fetch(`/api/v1/preferences/${preferenceId}/delete`);
+                    const data = await response.json();
+                    if (data.status) {
+                        await Swal.fire(
+                        '',
+                        `${data.message}`,
+                        'success'
+                        );
+                        location.reload();
+                    } else {
+                        await Swal.fire(
+                            '',
+                            `${data.message}`,
+                            'success'
+                        );
+                        location.reload();
+                    }
+                } catch (error) {
+                    console.log(error)
+                    swal.fire({
+                        "title": "",
+                        "text": error.data.message,
+                        "type": "error",
+                        "confirmButtonClass": "btn btn-secondary m-btn m-btn--wide"
+                    })
+                };
+            };
+        });
+    });
+};
+
+//Update Preference Event handlers
+const populateUpdateModal = async ()=>{
+    const updateBtn = document.querySelectorAll('.updateBtn');
+    updateBtn.forEach(button => { 
+        button.addEventListener('click', async (e) => {
+            const form = document.getElementById('kt_form_2');
+            const preferenceId = button.getAttribute('id');
+
+            const {data} = await fetchData('/preferences'); 
+            const preference = data.filter(pc=> pc.id == preferenceId);
+
+            form.setAttribute('onsubmit', `updatePreference(event,${preferenceId})`);
+            form.name.value = preference[0].name;
+            form.tier.value = preference[0].tier;
+            form.pcCode.value = preference[0].pcCode;
+            form.displayType.value = preference[0].displayType;
+            const optionData = insertOptions(data);
+            form.parentPC.innerHTML= optionData;
+
+        })
+    })
+};
+
+const updatePreference = async (event, preferenceId) => {
+    event.preventDefault();
+  console.log(preferenceId)
+    const form = event.target;
+    try {
+      const data = await fetch(`/api/v1/preferences/${preferenceId}/update`, {
+        method: 'POST',
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          name: form.name.value,
+          pcCode: form.pcCode.value,
+          parentPC: form.parentPC.value,
+          tier: form.tier.value,
+          displayType: form.displayType.value,
+        })
+      });
+      const {status, message} = await data.json();
+      // check if update was sucessful
+      if (status) {
+        console.log(message)
+        // show notification
+        swal.fire(
+          'Awesome!',
+          message,
+          'success'
+        )
+        location.href = `/main/preferences`;
+      } else {
+        // show notification
+        swal.fire(
+          'Failed!',
+          message,
+          'error'
+        )
+      }
+    } catch (error) {
+      console.log(error);
+    }
+};
+  

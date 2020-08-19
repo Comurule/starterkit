@@ -153,7 +153,7 @@ exports.getAllLeads = async (req, res) => {
 
 exports.convertLead = async(req, res) => {
     try {
-        await Lead.update({ leadStatus: req.body.status.trim() }, {
+        await Lead.update({ leadStatus: req.body.leadStatus.trim() }, {
             where: { id: req.params.leadId }
         }); 
         //Success Response
@@ -175,8 +175,8 @@ const validateInput = (req, res) => {
     const address = (req.body.address != '')? req.body.address.trim():'';
     const city = (req.body.city != '')? req.body.city.trim(): '';
     const country = (req.body.country != '')? req.body.country.trim(): '';
-    const leadCurrency = (req.body.leadCurrency != '')? req.body.leadCurrency.trim().toUpperCase(): '';
-    const leadLanguage = (req.body.leadLanguage != '')? req.body.leadLanguage.trim(): '';
+    const leadCurrency = (req.body.leadCurrency != '')? req.body.leadCurrency.trim().toUpperCase(): undefined;
+    const leadLanguage = (req.body.leadLanguage != '')? req.body.leadLanguage.trim(): undefined;
     const companyName = (req.body.companyName != '')? req.body.companyName.trim(): '';
     const companyEmail = (req.body.companyEmail != '')? req.body.companyEmail.trim(): '';
     const companyWebsite = (req.body.companyWebsite != '')? req.body.companyWebsite.trim(): '';
@@ -199,7 +199,7 @@ const validateInput = (req, res) => {
     }
 
     //validate leadCurrency 
-    if( leadCurrency != '' && (!leadCurrency.match(/^[A-Za-z]+$/) || leadCurrency.trim().length != 3) )
+    if( leadCurrency && (!leadCurrency.match(/^[A-Za-z]+$/) || leadCurrency.trim().length != 3) )
         return 'Currency should have three alphabets only.';
 
     //validate companyWebsite
@@ -216,7 +216,7 @@ const validateInput = (req, res) => {
         address,
         city,
         country,
-        leadCurrency: leadCurrency != '' ? leadCurrency : null,
+        leadCurrency,
         leadLanguage,
         companyName,
         companyEmail,

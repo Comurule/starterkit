@@ -13,7 +13,7 @@ const axios = require("axios");
  * @returns {Object} - Page rendered
  */
 exports.renderPage = async (req, res, title, functioName, rest ) => {
-    
+    console.log(title);
     const currentBusiness = await CurrentBusiness.findOrCreate({where: {id: req.user.CurrentBusinessId }});
      res.render('pages/content', {
         title,
