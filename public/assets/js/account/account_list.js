@@ -50,7 +50,7 @@ const insertTableData = (data) => {
       },
       {
         field: 'email',
-        title: 'Contact Email',
+        title: 'Account Email',
       },
       {
         field: 'campaign',

@@ -19,8 +19,20 @@ exports.createPreference = async (req, res) => {
             } 
         });
         if( checkPreference ) {
-            errorRes( res, 'This Preference Center already exists in the database.' );
-        } else {
+            return errorRes( res, 'This Preference Center already exists in the database.' );
+        };
+
+        //check if there is a duplicate pcCode in the database
+        const checkPcCode = await PreferenceCenter.findOne({ 
+            where: { 
+                name: inputData.pcCode,
+                departmentId: req.user['dataValues'].DepartmentId,
+                currentBusinessId: req.user['dataValues'].CurrentBusinessId 
+            } 
+        });
+        if( checkPcCode ) {
+            return errorRes( res, 'This Preference Center already exists in the database.' );
+        }
         
             const preference = await PreferenceCenter.create({
                 ...inputData,
@@ -32,7 +44,7 @@ exports.createPreference = async (req, res) => {
 
             //Success response
             successResWithData( res, 'Preference created successfully.', data );
-        }
+        
     } catch (error) {
         console.log(error);
         errorLog( res, 'Error: Preference creation is Unsuccessful.')
