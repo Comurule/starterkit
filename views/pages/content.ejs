@@ -1,0 +1,112 @@
+<%- contentFor('main-content') %>
+
+<% switch (functioName) {
+
+// USER PAGES
+case 'GET USER CREATE' : %>
+       <%- include ('../pages/user/user-create') %>
+       <% break;
+
+case 'GET USER UPDATE' : %>
+       <%- include ('../pages/user/user-update') %>
+       <% break;
+       
+case 'GET USER DETAILS' : %>
+       <%- include ('../pages/user/user-details') %>
+       <% break;
+       
+case 'GET USER LIST' : %>
+       <%- include ('../pages/user/user-list') %>
+       <% break;
+
+case 'GET USER PAGE' : %>
+       <%- include ('../pages/userMain') %>
+       <% break;
+       
+// LOGIN & SIGN UP PAGES
+case 'GET LOGIN PAGE' : %>
+       <%- include ('../pages/user/user-login') %>
+       <% break;
+
+case 'GET SIGNUP PAGE' : %>
+       <%- include ('../pages/user/user-create') %>
+       <% break;
+
+       //CAMPAIGN DATA PAGES
+case 'GET CAMPAIGN DATA LIST' : %>
+       <%- include ('../pages/campaignData/campaignData-list') %>
+       <% break;    
+        
+
+       //CAMPAIGN PAGES
+case 'GET CAMPAIGN LIST' : %>
+       <%- include ('../pages/campaign/campaign-list') %>
+       <% break;    
+        
+// LEAD PAGES
+case 'GET LEAD CREATE' : %>
+       <%- include ('../pages/lead/lead-create') %>
+       <% break;
+
+case 'GET LEAD UPDATE' : %>
+       <%- include ('../pages/lead/lead-update') %>
+       <% break;
+       
+case 'GET LEAD DETAILS' : %>
+       <%- include ('../pages/lead/lead-details') %>
+       <% break;
+       
+case 'GET LEAD LIST' : %>
+       <%- include ('../pages/lead/lead-list') %>
+       <% break; 
+
+       //PREFERENCE PAGES
+case 'GET PREFERENCE LIST' : %>
+       <%- include ('../pages/preference/preference-list') %>
+       <% break;    
+       
+       //LEAD PREFERENCE PAGE
+case 'GET LEADPREFERENCE LIST' : %>
+       <%- include ('../pages/leadPreference/leadPreference-list') %>
+       <% break;    
+       
+       // ACCOUNT PAGES
+
+case 'GET ACCOUNT CREATE' : %>
+       <%- include ('../pages/account/account-create') %>
+       <% break;
+
+case 'GET ACCOUNT UPDATE' : %>
+       <%- include ('../pages/account/account-update') %>
+       <% break;
+       
+case 'GET ACCOUNT DETAILS' : %>
+       <%- include ('../pages/account/account-details') %>
+       <% break;
+       
+case 'GET ACCOUNT LIST' : %>
+       <%- include ('../pages/account/account-list') %>
+       <% break;    
+       
+       // CONTACT PAGES
+
+case 'GET CONTACT CREATE' : %>
+       <%- include ('../pages/contact/contact-create') %>
+       <% break;
+
+case 'GET CONTACT UPDATE' : %>
+      <%- include ('../pages/contact/contact-update') %>
+      <% break;
+      
+case 'GET CONTACT DETAILS' : %>
+      <%- include ('../pages/contact/contact-details') %>
+      <% break;
+      
+case 'GET CONTACT LIST' : %>
+      <%- include ('../pages/contact/contact-list') %>
+      <% break;      
+
+default : %>
+       <%- include ('../pages/index') %>
+       <%  
+} %>

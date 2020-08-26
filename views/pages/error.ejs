@@ -1,0 +1,17 @@
+<%- contentFor('main-content') %>
+<!-- begin:: Page -->
+    <div class="kt-grid kt-grid--ver kt-grid--root">
+        <div class="kt-error404-v1">
+            <div class="kt-error404-v1__content">
+                <div class="kt-error404-v1__title"><%= error.status%></div>
+                <div class="kt-error404-v1__desc"><strong>OOPS!</strong> Something went wrong here.</div>
+                <div class="kt-error404-v1__desc">
+                    <h2><%= message%></h2>
+                    <pre><%= error.stack%></pre>
+                </div>
+            </div>
+            <!-- <div class="kt-error404-v1__image">
+                <img src="assets/media/misc/404-bg1.jpg" class="kt-error404-v1__image-content" alt="" title="" />
+            </div> -->
+        </div>
+    </div>

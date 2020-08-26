@@ -1,0 +1,51 @@
+<!-- begin:: Subheader -->
+<div class="kt-subheader   kt-grid__item" id="kt_subheader">
+    <div class="kt-container  kt-container--fluid ">
+        <div class="kt-subheader__main">
+            <h3 class="kt-subheader__title">Lead Campaign</h3>
+            <span class="kt-subheader__separator kt-hidden"></span>
+            <div class="kt-subheader__breadcrumbs">
+                <a href="/" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                <% if((/details/i).test(title) || (/list/i).test(title)) { %>
+                <span class="kt-subheader__breadcrumbs-separator"></span>
+                <a href="/main/<%=title.split(' ')[0].toLowerCase()%>s" class="kt-subheader__breadcrumbs-link">
+                    <%=title.split(' ')[0]%> </a>
+                <span class="kt-subheader__breadcrumbs-separator"></span>
+                <a class="kt-subheader__breadcrumbs-link">
+                  <%=title.split(' ')[1]%></a>
+                <% } else { %>
+                <span class="kt-subheader__breadcrumbs-separator"></span>
+                <a href="/main/<%= title.split(' ')[1].toLowerCase()%>s" class="kt-subheader__breadcrumbs-link">
+                    <%=title.split(' ')[1]%> </a>
+                <span class="kt-subheader__breadcrumbs-separator"></span>
+                <a class="kt-subheader__breadcrumbs-link">
+                  <%=title.split(' ')[0]%></a>
+                <% } %>
+            </div>
+        </div>
+        <div class="kt-subheader__toolbar">
+			<div class="kt-subheader__wrapper">
+        <% if(lead.leadStatus== 'new') { %>
+        <div class="">
+          &nbsp;
+          <a onclick="convertLead(<%= lead.id %>)" class="btn btn-light btn-bold btn-upper btn-font-sm">
+            <i class="la la-leaf"></i>
+            Convert Lead
+          </a>
+          &nbsp;
+          <a href="/main/leads/<%= lead.id %>/update" class="btn btn-brand btn-bold btn-upper btn-font-sm">
+            <i class="la la-edit"></i>
+            Edit Lead Details
+          </a>
+          &nbsp;
+          <a onclick="deleteLead(event, <%=lead.id%>)" class="btn btn-light btn-bold btn-upper btn-font-sm">
+            <i class="la la-trash"></i>
+            Delete Lead
+          </a>
+        </div>
+        <% } else {} %>
+			</div>
+		</div>
+    </div>
+</div>
+<!-- end:: Subheader -->

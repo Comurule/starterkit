@@ -1,0 +1,228 @@
+<div class="row">
+    <div class="col-md-6">
+		<!--begin::Portlet-->
+		<div class="kt-portlet kt-portlet--height-fluid">
+			<div class="kt-portlet__head">
+				<div class="kt-portlet__head-label">
+					<h3 class="kt-portlet__head-title">Lead BioData</h3>
+				</div>
+			</div>
+			<div class="kt-portlet__body">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-6">
+							<p><b>Status: </b><%= lead.leadStatus[0].toUpperCase()+lead.leadStatus.slice(1)%></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-8 col-xl-6">
+							<p><b>Full Name: </b><%= lead.firstName + ' ' + lead.lastName %></p>
+						</div>
+						<div class="col-md-6 col-xl-4">
+							<p><b>Username: </b><%= lead.username %></p>
+						</div>
+						<div class="col-md-6 col-xl-4">
+							<p><b>Email: </b><%= lead.email %></p>
+						</div>
+						<div class="col-md-12">
+							<p><b>Address: </b><%= lead.address %></p>
+						</div>
+						<div class="col-md-4 col-xl-3">
+							<p><b>City/State: </b><%= lead.city %></p>
+						</div>
+						<div class="col-md-4 col-xl-3">
+							<p><b>Country: </b><%= lead.counttry %></p>
+						</div>
+						<div class="col-md-4 col-xl-3">
+							<p><b>Currency: </b><%= lead.leadCurrency %></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<!--begin::Portlet-->
+		<div class="kt-portlet kt-portlet--height-fluid">
+			<div class="kt-portlet__head">
+				<div class="kt-portlet__head-label">
+					<h3 class="kt-portlet__head-title">Lead Campaigns</h3>
+				</div>
+			</div>
+			<div class="kt-portlet__body">
+				<div class="container">
+					<div class="row">
+						<div class="col-12">
+							<!--begin: Datatable -->
+							<table class="" id="html_table1" width="100%">
+								<thead>
+									<tr>
+										<th title="Field #4">Campaign</th>
+										<th title="Field #5">Data</th>
+										<th title="Field #6">Land</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>0006-3629</td>
+										<td>Land Rover</td>
+										<td>Range Rover</td>
+									</tr>
+									<tr>
+										<td>66403-315</td>
+										<td>GMC</td>
+										<td>Jimmy</td>
+									</tr>
+								</tbody>
+							</table>
+
+							<!--end: Datatable -->
+						</div>
+					</div>
+					</div>
+			</div>	
+		</div>
+		<!--end::Portlet-->
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-6">
+		<!--begin::Portlet-->
+		<div class="kt-portlet kt-portlet--height-fluid">
+			<div class="kt-portlet__head">
+				<div class="kt-portlet__head-label">
+					<h3 class="kt-portlet__head-title">Lead Company Details</h3>
+				</div>
+			</div>
+			<div class="kt-portlet__body">
+				<div class="container">
+					<div class="row">
+						<div class="col-12">
+							<p><b>Company Name: </b><%= lead.companyName %></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<p><b>Address: </b><%= lead.companyAddress %></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<p><b>City/State: </b><%= lead.companyCity %></p>
+						</div>
+						<div class="col-md-6 ml-auto">
+							<p><b>Country: </b><%= lead.companyCountry %></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<p><b>Company Email: </b><%= lead.companyEmail %></p>
+						</div>
+					</div>
+					<div class="row">	
+						<div class="col-md-12">
+							<p><b>Company Website: </b><%= lead.companyWebsite %></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+	<div class="col-md-6">
+		<!--begin::Portlet-->
+		<div class="kt-portlet kt-portlet--height-fluid">
+			<div class="kt-portlet__head">
+				<div class="kt-portlet__head-label">
+					<h3 class="kt-portlet__head-title">Lead Preferences</h3>
+				</div>
+			</div>
+			<div class="kt-portlet__body">
+				<div class="container">
+					<div class="row">
+						<div class="col-12">
+							<!--begin: Datatable -->
+							<table class="" id="html_table" width="100%">
+								<thead>
+									<tr>
+										<th title="Field #1" style="width: max-content;">Preference</th>
+										<th title="Field #2" style="width: 100px;">Enrolled</th>
+										<th title="Field #3" style="width: 100px;">Active</th>
+									</tr>
+								</thead>
+								<tbody>
+								    <% lead.PreferenceCenters.forEach ( preference => { %>
+								        <tr>
+    										<td><%= preference.name %></td>
+    										<td>
+												<% 
+												let checked = ''; let enrolled = ''; let value = ''; 
+												checked = (preference.LeadPreference.enrolled)? 'checked' : '';
+												enrolled = (preference.LeadPreference.enrolled)? 'Enrolled' : 'Not Enrolled';
+												value = (preference.LeadPreference.enrolled)? 'true' : 'false';
+												%>
+												<div><%= enrolled %></div> 
+												<form id="switchForm4">
+													<span class="kt-switch kt-switch--sm">
+														<label>
+															<input type="hidden" name="leadPreferenceId" value="<%= preference.LeadPreference.id%>">
+															<input id="enrolled" type="checkbox" value="<%= value %>" onchange="updateEnrolled(event, <%= preference.LeadPreference.id%>, <%= lead.id %>)" <%= checked %> >
+															<span></span>
+														</label>
+													</span>
+												</form>
+    										</td>
+    										<td>
+    										    <% 
+												let checkIsActive = ''; let isActive = ''; let val = '';
+												checkIsActive = (preference.LeadPreference.isActive)? 'checked' : '';
+												isActive = (preference.LeadPreference.isActive)? 'Active' : 'Inactive';
+												val = (preference.LeadPreference.isActive)? 'true' : 'false';
+												%>
+												<div><%= isActive %></div> 
+												<form id="switchForm2">
+													<span class="kt-switch kt-switch--sm">
+														<label>
+															<input type="hidden" name="leadPreferenceId" value="<%= preference.LeadPreference.id%>">
+															<input id="isActive" type="checkbox" value="<%= val %>" onchange="updateIsActive(event, <%= preference.LeadPreference.id%>, <%= lead.id %>)"<%= checkIsActive %> >
+															<span></span>
+														</label>
+													</span>
+												</form>
+    										</td>
+    									</tr>
+								    <% }) %>
+								</tbody>
+							</table>
+
+							<!--end: Datatable -->
+						</div>
+					</div>
+					</div>
+			</div>	
+		</div>
+		<!--end::Portlet-->
+	</div>
+	<div class="col-12">
+		<!--begin::Portlet-->
+		<div class="kt-portlet kt-portlet--height-fluid">
+			<div class="kt-portlet__body">
+					<div class="row">	
+						<div class="col-md-6 col-xl-3">
+							<p><b>Created By: </b>Umechukwu Chibuike</p>
+						</div>
+						<div class="col-md-6 col-xl-3">
+							<p><b>Last Modified By: </b>Umechukwu Chibuike</p>
+						</div>
+					</div>
+			</div>	
+		</div>
+		<!--end::Portlet-->
+	</div>
+</div> 			
+
+
+<!--begin::Page Scripts(used by this page) -->
+
+<!--for Select Change -->
+<script src="assets/js/lead/lead_details.js" type="text/javascript"></script>
+<!--for Select Change -->
