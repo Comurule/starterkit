@@ -73,7 +73,7 @@ const fetchData = async (url) =>{
 const insertOptions = (data) => {
   let optionData = `<option value=''>Select An Option</option>`;
   data.forEach(row=>{
-      optionData += `<option value='${row.pcCode}'>${row.name}</option>`;
+      optionData += `<option value='${row.id}'>${row.name}</option>`;
   });
   return optionData
 };  
@@ -99,6 +99,9 @@ const showCampaignOptions = async () => {
 const submitHandler= async function (event) {
   event.preventDefault();
   const form = event.target;
+  const formDetails = $('form').serializeArray().filter(e=> e.name.match(/formDetails/))
+  console.log($('form').serializeArray());
+  console.log(formDetails);
     try {
       const request = await fetch(`/api/v1/leads/create`, {
         method: 'POST',

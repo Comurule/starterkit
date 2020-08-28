@@ -14,6 +14,8 @@ var env = process.env.NODE_ENV || 'development',
 var index = require('./routes/index');
 var user = require('./routes/user');
 var main = require('./routes/main');
+var microservices = require("./routes/microservices");
+var {microServiceRender} = require("./controllers/webControllers/microServiceController");
 var apiRoutes = require('./routes/apiRoutes');
 var login = require('./routes/login');
 var siteAdmin = require('./routes/siteAdmin');
@@ -76,7 +78,7 @@ app.use(tools.onRequestEnd);
 // generate menu of the application
 app.use('/user', tools.generateUserMenu);
 
-const isWhiteListed = ( path, whiteList = [ 'login', 'autoLogin', 'api/v1' ] ) => {
+const isWhiteListed = ( path, whiteList = [ 'login', 'autoLogin', 'api/v1', 'api/v2', 'msc' ] ) => {
     let whiteListed = false;
     for(let i=0; i < whiteList.length; i++) {
         // this won't check authentication for login and autoLogin
@@ -139,8 +141,10 @@ app.get('/logout',
 // routing
 //
 app.use('/', index);
+app.use('/msc', microServiceRender);
 app.use('/main', main);
 app.use('/api/v1', apiRoutes);
+app.use('/api/v2', microservices);
 // app.use('/user', function(req, res, next) {
 //     console.log('is Authenticated?  '+req.isAuthenticated());
 //     if (req.isAuthenticated()) {

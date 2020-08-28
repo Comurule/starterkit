@@ -24,6 +24,15 @@ exports.renderPage = async (req, res, title, functioName, rest ) => {
         ...rest
     })
 };
+exports.renderLeadPage = async (req, res, title, functioName, rest ) => {
+    console.log(title);
+    res.render('pages/content', {
+        title,
+        functioName,
+        layout: 'layouts/main-lead',
+        ...rest
+    })
+};
 
 
 /** 

@@ -15,7 +15,7 @@ const fetchData = async (url) =>{
 };
 
 const preferenceData = async ()=>{
-    const { data } = await fetchData('/campaigns');        
+    const { data } = await fetchData('/campaignData');
         return data;
 };
 
@@ -41,38 +41,39 @@ var datatable = $('.kt_datatable').KTDatatable({
     search: {
         input: $('#generalSearch')
     },
-    // columns definition
+    
+// columns definition
     columns: [
     {
-        field: 'campaignName',
-        title: 'Campaign Name',
-        template: function (row) {
-          return `<a href="" data-toggle="modal" data-target="#kt_modal_KTDatatable_local">${row.campaignName}</a>`;
-        }
+        field: 'dataLabel',
+        title: 'Label',
     },
     {
-        field: 'campaignCode',
+        field: 'displayType',
+        title: 'Display Type',
+    },
+    {
+        field: 'cdCode',
         title: 'Code',
+    },
+    {
+        field: 'campaignName',
+        title: 'Campaign',
     },
     {
         field: 'actions',
         title: 'Actions',
         sortable: false,
-        width: 150,
+        width: 100,
         template: function (row) {
         return `
-            <a class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="modal" data-target="#kt_modal_KTDatatable_local" title="View Details">
-                <span id="${row.id}" class="viewBtn">
-                    <i class="la la-eye"></i>
-                </span>
-            </a>
-            <a class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="modal" data-target="#preference_modal" title="Edit Campaign">
+            <a class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="modal" data-target="#preference_modal" title="Edit Details">
                 <span id="${row.id}" class="updateBtn">
                     <i class="la la-edit"></i>
                 </span>
             </a>
-            <a class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete Campaign">
-                <span id="${row.id}" class="deleteBtn" data-app="${row.campaignName}">
+            <a class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Delete Campaign Data">
+                <span id="${row.id}" class="deleteBtn" data-app="${row.dataLabel}">
                     <i class="la la-trash"></i>
                 </span>
             </a>
@@ -170,7 +171,7 @@ const createCampaignDataHandler = async (event) => {
             data.message,
             'success'
         );
-        location.href = `/main/campaigns`;
+        location.href = `/main/campaignData`;
     } else {
         
         // show notification
@@ -191,55 +192,13 @@ const createCampaignDataHandler = async (event) => {
     }
 };
 
-const createCampaignHandler = async (event) => {
-    event.preventDefault();
-    const form = event.target;
-    
-    try {
-    const request = await fetch(`/api/v1/campaigns/create`, {
-        method: 'POST',
-        headers: {
-            "Content-type": "application/json", 
-        },
-        body: JSON.stringify({
-            campaignName: form.campaignName.value,
-        })
-    });
-    const data = await request.json();
-    console.log(data)
-    // check if create was sucessful
-    if (data.status) {
-        // show notification
-        await swal.fire(
-            'Awesome!',
-            data.message,
-            'success'
-        );
-        location.href = `/main/campaigns`;
-    } else {
-        
-        // show notification
-        await swal.fire(
-            'Failed!',
-            data.message,
-            'error'
-        )
-    }
-    } catch (error) {
-    console.log(error);
-    // show notification
-    await swal.fire(
-        'Failed!',
-        'Poor Network Connection',
-        'error'
-    )
-    }
-};
 //Delete Campaign Event handlers
-const deleteCampaign = () => {
+const deleteCampaignData = () => {
     const deleteBtn = document.querySelectorAll('.deleteBtn');
     deleteBtn.forEach(btn => {
+    console.log(btn);
         btn.addEventListener('click', async (e) => {
+            console.log('hit')
             let campaignId = btn.getAttribute('id')
             let campaignName = btn.dataset.app;
             const result = await Swal.fire({
@@ -302,7 +261,7 @@ const populateUpdateModal = async ()=>{
     })
 };
 
-const updateCampaign = async (event, campaignId) => {
+const updateCampaignData = async (event, campaignId) => {
     event.preventDefault();
   console.log(campaignId)
     const form = event.target;
@@ -350,6 +309,6 @@ const updateCampaign = async (event, campaignId) => {
 jQuery(document).ready(function() {
     insertListData();   
     KTFormControls.init();
-    setTimeout(deleteCampaign, 2000);
+    setTimeout(deleteCampaignData, 2000);
     setTimeout(populateUpdateModal, 2000);
 });

@@ -134,7 +134,7 @@ const getFetchData = async (url) =>{
 const insertOptions = (data) => {
   let optionData = `<option value=''>Select An Option</option>`;
   data.forEach(row=>{
-      optionData += `<option value='${row.id}'>${row.name}</option>`;
+      optionData += `<option value='${row.pcCode}'>${row.name}</option>`;
   });
   return optionData
 };  

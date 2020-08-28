@@ -100,6 +100,12 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       }
     });
+    models.Lead.hasMany(models.LeadCampaignData, {
+      foreignKey: {
+        name: 'leadId',
+        allowNull: false
+      }
+    });
     models.Lead.hasMany(models.LeadPreference, {
       foreignKey: {
         name: 'leadId',

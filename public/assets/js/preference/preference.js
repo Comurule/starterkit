@@ -174,6 +174,7 @@ const KTFormControls = function () {
 
 const showCreatePreferenceModal = async () => {
     const {data} = await fetchData('/preferences'); 
+    console.log(data)
     const optionData = insertOptions(data);
     document.getElementById('kt_select2_0').innerHTML= optionData;
 };

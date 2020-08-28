@@ -5,7 +5,6 @@ const { checkCodeGen, codeGen } =  require('../../utils/helpers');
 
 exports.createCampaign = async (req, res) => {
     const { campaignName } = req.body;
-    console.log(req.body)
     try {
         //To check against empty fields
         if ( !campaignName || campaignName == '' ) errorRes(res, 'Ensure all fields are filled'); 
@@ -126,7 +125,8 @@ exports.getAllCampaign = async (req, res) => {
             where: {
                 departmentId: req.user.DepartmentId,
                 currentBusinessId: req.user.CurrentBusinessId
-            }
+            },
+            include: CampaignData
         })
 
         //Success Response

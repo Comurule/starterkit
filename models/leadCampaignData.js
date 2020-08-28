@@ -22,6 +22,13 @@ module.exports = (sequelize, DataTypes) => {
   // create association between user and role
   // a can have many users
   LeadCampaignData.associate = (models) => {
+    models.LeadCampaignData.belongsTo(models.Lead, {
+      ondelete: 'CASCADE',
+      foreignKey: {
+        name: 'leadId',
+        allowNull: false
+      }
+    });
     models.LeadCampaignData.belongsTo(models.CampaignData, {
       ondelete: 'CASCADE',
       foreignKey: {

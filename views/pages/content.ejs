@@ -47,6 +47,10 @@ case 'GET CAMPAIGN LIST' : %>
 case 'GET LEAD CREATE' : %>
        <%- include ('../pages/lead/lead-create') %>
        <% break;
+       
+case 'GET LEAD MULTIPLE CREATE' : %>
+       <%- include ('../pages/lead/lead-create-multiple') %>
+       <% break;
 
 case 'GET LEAD UPDATE' : %>
        <%- include ('../pages/lead/lead-update') %>
@@ -104,7 +108,20 @@ case 'GET CONTACT DETAILS' : %>
       
 case 'GET CONTACT LIST' : %>
       <%- include ('../pages/contact/contact-list') %>
+      <% break;
+
+case 'GET UNSUBSCRIBE' : %>
+      <%- include ('../pages/microService/unsubscribe') %>
+      <% break;
+      
+case 'GET MANAGE PREFERENCE' : %>
+      <%- include ('../pages/microService/manage-preference') %>
+      <% break;
+      
+case 'GET MANAGE CAMPAIGNDATA' : %>
+      <%- include ('../pages/microService/manage-campaignData') %>
       <% break;      
+      
 
 default : %>
        <%- include ('../pages/index') %>

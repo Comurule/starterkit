@@ -4,7 +4,11 @@ const { errorRes, errorLog, successResWithData, successRes } = require('../../ut
 exports.getCreateLead = async (req, res) => {
     // const {data} = await axiosFetch(req, 'GET', '/preferences', '');
     // const preferences = await data;
-    renderPage(req, res, 'Create Lead', 'GET LEAD CREATE');
+    if(req.query.multiple == 'true'){
+        renderPage(req, res, 'Create-Multiple Lead', 'GET LEAD MULTIPLE CREATE');
+    }else{
+        renderPage(req, res, 'Create Lead', 'GET LEAD CREATE');
+    }
 };
  
 exports.getUpdateLead = async (req, res) => {

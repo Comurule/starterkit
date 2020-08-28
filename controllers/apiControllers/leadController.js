@@ -9,15 +9,20 @@
 /**
  * Module dependencies.
  */
-const { Lead, PreferenceCenter, Campaign } = require('../../models');
+const nodemailer = require('nodemailer');
+ 
+ 
+const { Lead, PreferenceCenter, Campaign, LeadCampaignData } = require('../../models');
 const{ 
     errorRes, errorLog, successResWithData, successRes
 } = require('../../utils/apiResponse');
-const { checkCodeGen, codeGen } =  require('../../utils/helpers');
+const { checkCodeGen, codeGen, sendEmail, message } =  require('../../utils/helpers');
 
 // Handle User create on POST.
 exports.createLead = async(req, res) => {    
     try {
+        console.log(req.body);
+        const {preferences, campaignCode}=req.body;
         const leadData = await validateInput(req, res);
         if(typeof leadData === 'string') return errorRes(res, leadData);
         
@@ -54,6 +59,13 @@ exports.createLead = async(req, res) => {
 
         //Success Response
         const data = await createdLead;
+        
+        const email = createdLead.email;
+        const subject = 'Thanks for Subscribing';
+        const companyLink = 'https://f410a7592b47419e84d5207582f24765.vfs.cloud9.us-east-1.amazonaws.com/msc'
+        const mailTemplate = await message(companyLink, leadCode, preferences.join(','), campaignCode);
+        await sendEmail(email, subject, mailTemplate);
+        
         successResWithData( res, 'Lead created Successfully', data ); 
 
     } catch (error) {
@@ -113,9 +125,10 @@ exports.updateLead = async(req, res) => {
 
 exports.getLead = async (req, res) =>{
     try {
-        const lead = await Lead.findByPk(req.params.leadId, {include: [PreferenceCenter, Campaign]});
+        const lead = await Lead.findByPk(req.params.leadId, {include: [PreferenceCenter, Campaign, LeadCampaignData]});
         if(!lead) errorRes( res, 'Invalid Lead Id');
         //Success Response
+        console.log(lead);
         const data = await lead;
         successResWithData( res, 'Lead Details', data );
                
@@ -245,14 +258,14 @@ const createOrUpdatePreferences = async(req, res, leadData, actionType) => {
     if( actionType == 'create' && preferences.length > 0 ) {
         try {
             if(preferences.length == 1){
-                let preferenceId = (typeof preferences == 'object')? preferences[0] : preferences;
-                const preference = await PreferenceCenter.findByPk(preferenceId)
+                let pcCode = (typeof preferences == 'object')? preferences[0] : preferences;
+                const preference = await PreferenceCenter.findOne({where: {pcCode}})
                 await leadData.addPreferenceCenter(preference);
                 return true
 
             }else {
-                preferences.forEach( async preferenceId => {
-                    const preference = await PreferenceCenter.findByPk(preferenceId)
+                preferences.forEach( async pcCode => {
+                    const preference = await PreferenceCenter.findOne({where: {pcCode}})
                     await leadData.addPreferenceCenter(preference);
                 })
                 
@@ -268,15 +281,15 @@ const createOrUpdatePreferences = async(req, res, leadData, actionType) => {
             //delete all lead preferences            
             await leadData.removePreferenceCenter(leadData.PreferenceCenters)
             //add the incoming Preferences to this lead
-            let preferenceId;
+            let pcCode;
             if(preferences.length == 1){
-                preferenceId = (typeof preferences == 'object')? preferences[0] : preferences;
-                const preference = await PreferenceCenter.findByPk(preferenceId)
+                pcCode = (typeof preferences == 'object')? preferences[0] : preferences;
+                const preference = await PreferenceCenter.findOne({where: {pcCode}})
                 await leadData.addPreferenceCenter(preference);
                return true;
             }else{
-                preferences.forEach( async preferenceId => {
-                    const preference = await PreferenceCenter.findByPk(preferenceId)
+                preferences.forEach( async pcCode => {
+                    const preference = await PreferenceCenter.findOne({where: {pcCode}})
                     await leadData.addPreferenceCenter(preference);
                 })
                 
@@ -293,11 +306,12 @@ const createOrUpdatePreferences = async(req, res, leadData, actionType) => {
 
 const createOrUpdateCampaign = async(campaignCode, leadData, actionType) => {
     if( !campaignCode) return false
+    console.log(1, campaignCode)
 
     //Create Preferences in Lead Profile
     if( actionType == 'create') {
         try {
-            const campaignData = await Campaign.findOne({campaignCode});
+            const campaignData = await Campaign.findOne({where:{campaignCode}});
             await leadData.addCampaign(campaignData);
             return true
         } catch (error) {
@@ -311,7 +325,7 @@ const createOrUpdateCampaign = async(campaignCode, leadData, actionType) => {
             //checks if the campaign exists in the existing lead details and skips if so
             leadData.Campaigns.forEach(async campaign=>{
                 if(campaign.campaignCode != campaignCode) {
-                    const campaignData = await Campaign.findOne({campaignCode})
+                    const campaignData = await Campaign.findOne({where: {campaignCode}})
                     await leadData.addCampaign(campaignData);
                 }
             });        

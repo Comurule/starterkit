@@ -58,21 +58,18 @@
 								<thead>
 									<tr>
 										<th title="Field #4">Campaign</th>
-										<th title="Field #5">Data</th>
-										<th title="Field #6">Land</th>
+										<th title="Field #5">DataLabel</th>
+										<th title="Field #6">Value</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>0006-3629</td>
-										<td>Land Rover</td>
-										<td>Range Rover</td>
-									</tr>
-									<tr>
-										<td>66403-315</td>
-										<td>GMC</td>
-										<td>Jimmy</td>
-									</tr>
+									<% lead.LeadCampaignData.forEach(lcd=>{ %>
+										<tr>
+											<td>0006-3629</td>
+											<td><%= lcd.dataLabel%></td>
+											<td><%= lcd.value%></td>
+										</tr>
+									<% }); %>
 								</tbody>
 							</table>
 

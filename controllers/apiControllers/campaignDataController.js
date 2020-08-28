@@ -100,22 +100,21 @@ exports.getCampaignData = async (req, res) => {
 
 exports.getAllCampaignData = async (req, res) => {
     try {
-        const campaignList = await Campaign.findAll({
-            where: {
-                departmentId: req.user.DepartmentId,
-                currentBusiness: req.user.CurrentBusinessId
-            }
+        const cdList = await CampaignData.findAll({
+            include: [{
+                model: Campaign,
+                where: {
+                    departmentId: req.user.DepartmentId,
+                    currentBusinessId: req.user.CurrentBusinessId 
+                }
+            }]
         });
-        let list = [];
-        campaignList.forEach(async campaign=>{
-            const cdList = await CampaignData.findAll({
-                where: { campaignId: campaign.id },
-                include: Campaign
-            });
-            list.push(cdList);
+        
+        cdList.forEach(cd=>{
+            cd['dataValues'].campaignName = cd.Campaign.campaignName;
         });
         //Success Response
-        const data = await list;
+        const data = await cdList;
         successResWithData(res, 'Campaign Data List', data);
     } catch (error) {
         console.log(error);
